@@ -14,10 +14,10 @@ image = Image.open('img.png')
 
 
 def intro():
-    col1, col2 = sb.columns([0.8, 0.2])
+    col1, col2, col3 = sb.columns(3, gap='small')
+    col1.text("\n \n \n ")
     col1.title("TMvisDB")
-    col2.image(image, width=150)
-
+    col2.image(image, width=90)
     sb.info(
         """
     Welcome to TMvisDB! We provide a comprehensive overview of predicted transmembrane proteins for all protein sequences available in Alphafold DB.
@@ -32,20 +32,25 @@ def intro():
 
 
 def filters():
-    st.sidebar.subheader("Filter by Topology and/or Taxonomy")
+    sb.text("--------------------------------------")
+    sb.subheader("Search TMvisDB")
     # select TMP type
-    selected_type = st.sidebar.selectbox('Select by Transmembrane Topology ', type_list)
+    selected_type = st.sidebar.selectbox('Filter by Transmembrane Topology ', type_list)
     selected_sp = st.sidebar.checkbox('Include sequences with signal peptides', value=0)
     # select Taxonomy
-    selected_domain = st.sidebar.multiselect('Select by Taxonomy: Domain', domain_list, default='All')
-    selected_kingdom = st.sidebar.multiselect('Select by Taxonomy: Kingdom', kingdom_list, default='All')
+    selected_domain = st.sidebar.multiselect('Filter by Taxonomy: Domain', domain_list, default='All')
+    selected_kingdom = st.sidebar.multiselect('Filter by Taxonomy: Kingdom', kingdom_list, default='All')
     # Number of shown sequences
     selected_limit = st.sidebar.number_input('Insert number of shown sequences', 1, 1000, value=100)
     return selected_domain, selected_kingdom, selected_type, selected_sp, selected_limit
 
+
 def vis():
+    sb.text("--------------------------------------")
+    st.sidebar.subheader("Visualize predicted transmembrane protein")
+
     # select ID
-    selected_id = st.sidebar._text_input('Select protein', value ="A3Z0C4")
+    selected_id = st.sidebar.text_input('Insert Uniprot ID', value ="A3Z0C4")
     # select style
     style = st.sidebar.selectbox('Style', ['Cartoon', 'Line', 'Cross', 'Stick', 'Sphere', 'Clicksphere']).lower()
     # select color

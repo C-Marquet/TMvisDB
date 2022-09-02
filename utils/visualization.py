@@ -13,7 +13,7 @@ def get_data_vis(db, selected_id):
     return prediction
 
 
-def vis(selected_id, prediction, ):
+def vis(selected_id, pred, style, color_prot, spin):
 
     # Initialize AF DB file
     afdb_path = 'https://www.alphafold.ebi.ac.uk/files/AF-' + selected_id + '-F1-model_v3.pdb'
@@ -28,7 +28,7 @@ def vis(selected_id, prediction, ):
     num_atom = 0
     atom_color = dict()
     # get TM colors
-    for nr, res_type in enumerate(prediction):
+    for nr, res_type in enumerate(pred):
         if res_type == '.':
             atom_color[nr] = 'grey'
         elif res_type in ['B', 'H']:
