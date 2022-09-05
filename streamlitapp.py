@@ -19,7 +19,6 @@ db = client.tmvis
 
 ####################################################################
 ## Sidebar ##
-sidebar.intro()
 [selected_domain, selected_kingdom, selected_type, selected_sp, selected_limit, select_random] = sidebar.filters()
 [selected_id, style, color_prot, spin] = sidebar.vis()
 sidebar.end()
@@ -65,19 +64,18 @@ with tab2:#
     load_vis_tbl = st.checkbox('Visualize selected prediction')
     if load_vis_tbl:
         pred_tbl = visualization.get_data_vis(db, selected_dfid)
-        visualization.vis(selected_dfid, pred_tbl, style, color_prot, spin)
-        st.caption("Go to the side bar to change style and color scheme.")
+        visualization.vis(selected_dfid, pred_tbl, 'cartoon', 'Transmembrane Prediction', 0)
+        st.caption("Use the visualization tab and side bar to change style and color scheme.")
 ####################################################################
 
 ####################################################################
 ## 3D vis ##
 
 with tab3:
-    load_vis_sdbr = st.checkbox('Load selected 3D structure')
-    if load_vis_sdbr:
-        pred_vis = visualization.get_data_vis(db, selected_id)
-        st.info("ID selected from sidebar")
-        visualization.vis(selected_id, pred_vis, style, color_prot, spin)
+    #load_vis_sdbr = st.checkbox('Load selected 3D structure')
+    #if load_vis_sdbr:
+    pred_vis = visualization.get_data_vis(db, selected_id)
+    visualization.vis(selected_id, pred_vis, style, color_prot, spin)
 
     st.markdown("---")
 

@@ -1,7 +1,6 @@
 
 import streamlit as st
 sb = st.sidebar
-from PIL import Image
 
 ####################################################################
 # Options: Filter
@@ -10,19 +9,9 @@ domain_list = ['All', 'Bacteria', 'Eukaryota', 'Archaea', 'unclassified sequence
 kingdom_list = ['All', 'Bacteroidetes', 'Viridiplantae', 'Gemmatimonadetes', 'Thaumarchaeota', 'Proteobacteria', 'Cyanobacteria', 'Actinobacteria', 'Metazoa', 'Rhodophyta', 'environmental samples', 'Firmicutes', 'Fungi', 'Sar', 'metagenomes', 'Planctomycetes', 'Fusobacteria', 'Aquificae', 'Candidatus Saccharibacteria', 'Verrucomicrobia', 'Candidatus Woesebacteria', 'Euryarchaeota', 'Discoba', 'Synergistetes', 'Glaucocystophyceae', 'Cryptophyceae', 'Acidobacteria', 'Tenericutes', 'Fibrobacteres', 'Chlamydiae', 'Deinococcus-Thermus', 'Crenarchaeota', 'unclassified Parcubacteria group', 'Spirochaetes', 'Candidatus Thermoplasmatota', 'Asgard group', 'Chloroflexi', 'Candidatus Gottesmanbacteria', 'Candidatus Moranbacteria', 'Metamonada', 'Candidatus Bipolaricaulota', 'Elusimicrobia', 'Candidatus Stahlbacteria', 'Amoebozoa', 'Haptista', 'Candidatus Poribacteria', 'unclassified candidate division Zixibacteria', 'candidate division GN15', 'Candidatus Aminicenantes', 'Candidatus Rokubacteria', 'Candidatus Giovannonibacteria', 'candidate division WS2', 'Calditrichaeota', 'Thermotogae', 'Nitrospirae', 'Candidatus Marinimicrobia', 'Candidatus Dojkabacteria', 'Candidatus Peregrinibacteria', 'Candidatus Roizmanbacteria', 'candidate division TA06', 'Chlorobi', 'Candidatus Gracilibacteria', 'Candidatus Bathyarchaeota', 'Candidatus Altiarchaeota', 'Candidatus Latescibacteria', 'Lentisphaerae', 'Candidatus Parcubacteria', 'Candidatus Aerophobetes', 'Candidatus Dadabacteria', 'Atribacterota', 'Armatimonadetes', 'candidate division WWE3', 'Candidatus Microgenomates', 'Candidatus Falkowbacteria', 'Candidatus Edwardsbacteria', 'Candidatus Cloacimonetes', 'Candidatus Omnitrophica', 'candidate division KSB1', 'Ignavibacteriae', 'Candidatus Collierbacteria', 'Candidatus Micrarchaeota', 'Candidatus Hydrogenedentes', 'Candidatus Dependentiae', 'Candidatus Kaiserbacteria', 'Candidatus Vecturithrix', 'Candidatus Berkelbacteria', 'Candidatus Fermentibacteria', 'Candidatus Woesearchaeota', 'candidate division WOR-3', 'Balneolaeota', 'Candidatus Magasanikbacteria', 'Candidatus Wolfebacteria', 'Nitrospinae/Tectomicrobia group', 'Chrysiogenetes', 'Candidatus Shapirobacteria', 'Coprothermobacterota', 'Candidatus Pacearchaeota', 'Candidatus Margulisbacteria', 'Candidatus Amesbacteria', 'candidate division CPR1', 'Candidatus Delongbacteria', 'candidate division CPR2', 'Candidatus Korarchaeota', 'candidate division NC10', 'Candidatus Uhrbacteria', 'candidate division Kazan-3B-28', 'Deferribacteres', 'Candidatus Yanofskybacteria', 'Candidatus Eisenbacteria', 'Candidatus Daviesbacteria', 'Candidatus Nomurabacteria', 'Nanoarchaeota', 'Candidatus Kuenenbacteria', 'Candidatus Coatesbacteria', 'Candidatus Adlerbacteria', 'Candidatus Schekmanbacteria', 'Candidatus Levybacteria', 'Candidatus Aenigmarchaeota', 'Dictyoglomi', 'Candidatus Nealsonbacteria', 'Candidatus Melainabacteria', 'Thermodesulfobacteria', 'Candidatus Curtissbacteria', 'Candidatus Saganbacteria', 'Candidatus Beckwithbacteria', 'Candidatus Sumerlaeota', 'Candidatus Handelsmanbacteria', 'Candidatus Huberarchaea', 'Candidatus Azambacteria', 'Candidatus Desantisbacteria', 'Candidatus Dormibacteraeota', 'Candidatus Undinarchaeota', 'Candidatus Diapherotrites', 'Microgenomates group incertae sedis', 'Candidatus Hydrothermarchaeota', 'Candidatus Parvarchaeota', 'Candidatus Pacebacteria', 'Candidatus Jorgensenbacteria']
 
 ####################################################################
-# Header Image
-image = Image.open('img.png')
-
-####################################################################
-# Introduction
-def intro():
-    col1, col2 = sb.columns(2, gap='small')
-    col1.text("\n")
-    col1.title("TMvisDB")
-    col2.image(image, width=100)
-    sb.caption("A database to search and visualize predicted transmembrane proteins.")
 
 def filters():
+    sb.markdown('<style>div.block-container{padding-top:1rem;}</style>', unsafe_allow_html=True)
     sb.markdown("---")
     sb.subheader("Search TMvisDB")
     #select_random = sb.checkbox('Show random subset', value=1,

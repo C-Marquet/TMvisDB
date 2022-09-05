@@ -19,15 +19,18 @@ system = "".join([x for x in pdb_file])
 
 
 def title():
+    st.markdown('<style>div.block-container{padding-top:3rem;}</style>', unsafe_allow_html=True)
+
     col1, col2, col3, col4 = st.columns(4, gap='small')
-    col1.title(" \n ")
-    col1.title("TMvisDB")
+    col1.markdown("  \n")
+    col1.markdown("  \n")
+    col1.markdown("  \n")
+    col1.markdown("# TMvisDB")
 
     with col2:
-
         view = py3Dmol.view(js='https://3dmol.org/build/3Dmol.js', height=200, width=400)
         view.addModelsAsFrames(system)
-        view.setBackgroundColor('#273346')
+        view.setBackgroundColor('#0E1117')
         view.spin(True)
 
         num_atom = 0
@@ -51,7 +54,9 @@ def title():
         view.zoom(0.15)
         showmol(view, height=200, width=400)
 
-
-
     st.caption("Welcome to TMvisDB: A database to search and visualize predicted transmembrane proteins.")
+
+
+
+
 

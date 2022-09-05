@@ -40,7 +40,7 @@ def vis(selected_id, pred, style, color_prot, spin):
     # visualize protein structure
     view = py3Dmol.view(js='https://3dmol.org/build/3Dmol.js')
     view.addModelsAsFrames(system)
-    view.setBackgroundColor('white')
+    view.setBackgroundColor('#262730')
 
     num_atom = 0
     atom_color = dict()
@@ -96,5 +96,5 @@ def vis(selected_id, pred, style, color_prot, spin):
     st.write(color_table)
     st.write(color_code)
 
-    st.caption("The inside/outside annotation is not optimized and is just displayed for approximation.")
+    st.caption("The inside/outside annotation is not optimized and must be interpreted with caution.")
 
