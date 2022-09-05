@@ -1,6 +1,23 @@
 import pandas as pd
 
 
+def get_random(db, selected_limit):
+    data_form = {"tmvis_id": 1,
+                 "topology_flags": 1,
+                 "organism.lineage": 1,
+                 "_id": 0}
+
+    items = db.chunk0.aggregate([{ "$sample" : { "size": selected_limit }}, { "$project" : data_form}])
+
+    df = pd.json_normalize(items)
+    df['Domain'] = df['organism.lineage'].str[0]
+    df['Kingdom'] = df['organism.lineage'].str[1]
+    df = df[['tmvis_id', 'topology_flags', 'Domain', 'Kingdom', 'organism.lineage']]
+    df.columns = ['UniProt ID', 'Predicted: Alpha / Beta / Signal', 'Domain', 'Kingdom', 'Organism']
+
+    return df
+
+
 def query(selected_domain, selected_kingdom, selected_type, selected_sp):
     sp = int(selected_sp)
 
