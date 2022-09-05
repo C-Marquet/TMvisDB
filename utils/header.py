@@ -5,9 +5,13 @@ from stmol import showmol
 ##############
 # Header vis #
 id = "A0A6J4QGY1"
-seq = "PLRVWMHVPVGASAQPEWRAGVSLSVPLDAGRRAPP"
-pred = "BBBBBBBBBoooooooobbbbbbbbbbiiiiiiiii"
-pdb_file = open("header_A0A6J4QGY1.pdb","r")
+#seq = "PLRVWMHVPVGASAQPEWRAGVSLSVPLDAGRRAPP"
+#pred ="BBBBBBBBBoooooooobbbbbbbbbbiiiiiiiii"
+
+seq = "MSTTSATPDPVVVRSTVPARMDRLPWTRFHWIVVVGLGVSWILDGLEIQIVSLNGPSLTDAAGSMHLSAAEFGALGSIYLAGEVVGALVFGRITDKLGRRKLFIITLAIYLVGSGLGGFAWDFWSLALFRFVAGTGIGGEYTAINSAIDELIPAKYRGRVDIAVNGTYWGGALLGNLVGLYLFSNNVSIDWGWRIGFFIGPVLGLVIIFLRRTIPESPRWLMTHGREEEAKRTVDDIEKRIEARGVELEPVPDSKAITLKETPPLGFAELTKIFFGKYPKRSVLGFTMMVTQAFLYNAIFFSYALVLKTFYGIPAGSIPLYFLPFALGNLLGPLLLGHLFDTIGRRKMILATYGGSGILLFITAFMFNAGILTATTQTILWCVIFFFASAGASSAYLTVSEIFPLELRGQAISYFFAISQGAGGVVAPWLFGKLIGNPDALASTGHAPPTGPLTWGYVIGASIMVIGGLVAWFIGIDAERKSLEDIATPLSAAEQPPGQGEMSEARS"
+pred = "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiHHHHHHHHHHHHHHHHHHHHHHHHoooooooooooooooohhhhhhhhhhhhhhhhhhhhhhiiiiiiiHHHHHHHHHHHHHHHHHHHHoohhhhhhhhhhhhhhhhhhhhhhhiiiiiiiiiiiiiiHHHHHHHHHHHHHHHHHHHHHHHooooooooohhhhhhhhhhhhhhhhhhhhiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiHHHHHHHHHHHHHHHHHHHHHHHHHooooooooooohhhhhhhhhhhhhhhhhhhhhhiiiiiiiHHHHHHHHHHHHHHHHHHHHHooooooohhhhhhhhhhhhhhhhhhhhhhiiiiiiiiiiiiiiHHHHHHHHHHHHHHHHHHHHHHHooooooooooooooooooohhhhhhhhhhhhhhhhhhhhhiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiHHHHHHHHHHHHHHHHHHHHHHHHoooooooooooooooohhhhhhhhhhhhhhhhhhhhhhiiiiiiiHHHHHHHHHHHHHHHHHHHHoohhhhhhhhhhhhhhhhhhhhhhhiiiiiiiiiiiiiiHHHHHHHHHHHHHHHHHHHHHHHooooooooohhhhhhhhhhhhhhhhhhhhiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiHHHHHHHHHHHHHHHHHHHHHHHHHooooooooooohhhhhhhhhhhhhhhhhhhhhhiiiiiiiHHHHHHHHHHHHHHHHHHHHHooooooohhhhhhhhhhhhhhhhhhhhhhiiiiiiiiiiiiiiHHHHHHHHHHHHHHHHHHHHHHHooooooooooooooooooohhhhhhhhhhhhhhhhhhhhhiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii"
+
+pdb_file = open("header_A0A2T0ZVU5.pdb","r")
 system = "".join([x for x in pdb_file])
 
 
@@ -44,7 +48,7 @@ def title():
                 atom_color[nr] = 'grey'
 
         view.setStyle({'model': -1}, {'cartoon': {'colorscheme': {'prop': 'resi', 'map': atom_color}}})
-        view.zoom(0.3)
+        view.zoom(0.15)
         showmol(view, height=200, width=400)
 
 
