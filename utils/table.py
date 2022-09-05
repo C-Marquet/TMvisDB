@@ -27,7 +27,7 @@ def query(selected_domain, selected_kingdom, selected_type, selected_sp):
         selection["topology_flags"] = [1, 1, sp]
     elif 'Alpha-helix' in selected_type:
         selection["topology_flags"] = [1, 0, sp]
-    elif 'Beta-barrel' in selected_type:
+    elif 'Beta-strand' in selected_type:
         selection["topology_flags"] = [0, 1, sp]
 
     # add filter for domain and kingdom

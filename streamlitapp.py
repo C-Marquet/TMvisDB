@@ -1,8 +1,7 @@
 import streamlit as st
 import pymongo
 import pandas as pd
-from utils import overview, sidebar, table, visualization
-from PIL import Image
+from utils import overview, sidebar, table, visualization, about, header
 from st_aggrid import AgGrid
 
 st.set_page_config(page_title='TMvisDB', page_icon='🧬')
@@ -27,17 +26,14 @@ sidebar.end()
 ####################################################################
 
 ####################################################################
-## Main ##
-col1, col2, col3, col4  = st.columns(4, gap='small')
-col1.title(" \n ")
-col1.title("TMvisDB")
-col2.image(Image.open('img.png'), width=150)
-col3.image(Image.open('img.png'), width=150)
-col4.image(Image.open('img.png'), width=150)
-
-st.caption("Welcome to TMvisDB: A database to search and visualize predicted transmembrane proteins.")
-
+## Header ##
+header.title()
 tab1, tab2, tab3, tab4 = st.tabs(["Overview", "Database", "Visualization", "About"])
+
+####################################################################
+
+####################################################################
+## Overview ##
 
 with tab1:
     overview.intro()
@@ -69,7 +65,7 @@ with tab2:#
     load_vis_tbl = st.checkbox('Visualize selected prediction')
     if load_vis_tbl:
         pred_tbl = visualization.get_data_vis(db, selected_dfid)
-        visualization.vis(selected_id, pred_tbl, style, color_prot, spin)
+        visualization.vis(selected_dfid, pred_tbl, style, color_prot, spin)
         st.caption("Go to the side bar to change style and color scheme.")
 ####################################################################
 
@@ -90,4 +86,6 @@ with tab3:
 ####################################################################
 ## About ##
 with tab4:
-    st.text("hi")
+    about.references()
+    about.software()
+    about.author()
