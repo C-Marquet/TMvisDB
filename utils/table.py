@@ -35,7 +35,7 @@ def get_data_tbl(db, query, selected_limit):
     df['Domain'] = df['organism.lineage'].str[0]
     df['Kingdom'] = df['organism.lineage'].str[1]
     df = df[['tmvis_id', 'topology_flags', 'Domain', 'Kingdom', 'organism.lineage']]
-    df.columns = ['Uniprot ID', 'Predicted: Alpha / Beta / Signal', 'Domain', 'Kingdom', 'Organism']
+    df.columns = ['UniProt ID', 'Predicted: Alpha / Beta / Signal', 'Domain', 'Kingdom', 'Organism']
 
     return df
 

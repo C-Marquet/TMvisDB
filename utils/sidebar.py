@@ -14,51 +14,46 @@ image = Image.open('img.png')
 
 
 def intro():
-    col1, col2, col3 = sb.columns(3, gap='small')
-    col1.text("\n \n \n ")
+    col1, col2 = sb.columns(2, gap='small')
+    col1.text("\n")
     col1.title("TMvisDB")
-    col2.image(image, width=90)
-    sb.info(
-        """
-    Welcome to TMvisDB! We provide a comprehensive overview of predicted transmembrane proteins for all protein sequences available in Alphafold DB.
-    
-    -> To access the TMvisDB, please apply one or more of the filters below.
-    
-    -> To directly show the 3D visualization of a protein, type in a Uniprot identifier.
-    
-    -> You may also select a row of the table you generated.
-    """
-    )
+    col2.image(image, width=100)
+    sb.info("Welcome to TMvisDB: A database to search and visualize predicted transmembrane proteins.")
 
 
 def filters():
-    sb.text("--------------------------------------")
+    sb.text("--------------------------------------------------")
     sb.subheader("Search TMvisDB")
-    # select TMP type
-    selected_type = st.sidebar.selectbox('Filter by Transmembrane Topology ', type_list)
-    selected_sp = st.sidebar.checkbox('Include sequences with signal peptides', value=0)
-    # select Taxonomy
-    selected_domain = st.sidebar.multiselect('Filter by Taxonomy: Domain', domain_list, default='All')
-    selected_kingdom = st.sidebar.multiselect('Filter by Taxonomy: Kingdom', kingdom_list, default='All')
-    # Number of shown sequences
-    selected_limit = st.sidebar.number_input('Insert number of shown sequences', 1, 1000, value=100)
+
+    with sb.expander("Access filters for TMvisDB."):
+        # select TMP type
+        selected_type = st.selectbox('Filter by Transmembrane Topology ', type_list)
+        selected_sp = st.checkbox('Include sequences with signal peptides', value=0)
+        # select Taxonomy
+        selected_domain = st.multiselect('Filter by Taxonomy: Domain', domain_list, default='All')
+        selected_kingdom = st.multiselect('Filter by Taxonomy: Kingdom', kingdom_list, default='All')
+        # Number of shown sequences
+        selected_limit = st.number_input('Insert number of shown sequences', 1, 1000, value=100)
+
     return selected_domain, selected_kingdom, selected_type, selected_sp, selected_limit
 
 
 def vis():
-    sb.text("--------------------------------------")
-    st.sidebar.subheader("Visualize predicted transmembrane protein")
+    sb.text("--------------------------------------------------")
+    st.sidebar.subheader("Visualize predicted transmembrane proteins")
 
-    # select ID
-    selected_id = st.sidebar.text_input('Insert Uniprot ID', value ="A3Z0C4")
-    # select style
-    style = st.sidebar.selectbox('Style', ['Cartoon', 'Line', 'Cross', 'Stick', 'Sphere', 'Clicksphere']).lower()
-    # select color
-    color_prot = st.sidebar.selectbox('Color Scheme', ['Transmembrane Prediction', 'Alphafold pLDDT score'])
-    # select spin
-    spin = st.sidebar.checkbox('Spin', value=False)
+    with sb.expander("Show 3D visualization of a protein."):
+        # select ID
+        selected_id = st.text_input('Insert Uniprot ID', value ="A3Z0C4")
+        # select style
+        style = st.selectbox('Style', ['Cartoon', 'Line', 'Cross', 'Stick', 'Sphere', 'Clicksphere']).lower()
+        # select color
+        color_prot = st.selectbox('Color Scheme', ['Transmembrane Prediction', 'Alphafold pLDDT score'])
+        # select spin
+        spin = st.checkbox('Spin', value=False)
     return selected_id, style, color_prot, spin
 
 def end():
+    sb.text("--------------------------------------------------")
     st.sidebar.write("Author: [Céline Marquet](https://github.com/C-Marquet)")
     st.sidebar.write("Source: [Github](https://github.com/C-Marquet/TMvisDB)")
