@@ -4,14 +4,16 @@ import pandas as pd
 from utils import overview, sidebar, table, visualization, about, header
 from st_aggrid import AgGrid
 
-st.set_page_config(page_title='TMvisDB', page_icon='🧬')
+st.set_page_config(page_title='TMvisDB', page_icon="⚛️")
 
 ####################################################################
 ## Initialize connection to DB ##
 # Uses st.experimental_singleton to only run once.
 @st.experimental_singleton
 def init_connection():
-    return pymongo.MongoClient("mongodb://localhost:27017/")
+    # pymongo.MongoClient("mongodb://localhost:27017/")
+    return pymongo.MongoClient("mongodb+srv://marquet:testmongo@cluster0.b84qizg.mongodb.net/?retryWrites=true&w=majority")
+
 
 client = init_connection()
 db = client.tmvis
