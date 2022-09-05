@@ -20,22 +20,7 @@ def intro():
     col1.text("\n")
     col1.title("TMvisDB")
     col2.image(image, width=100)
-    sb.info("Welcome to TMvisDB:  \n"   # note: for newline add two whitespaces before \n
-            "A database to search and visualize predicted transmembrane proteins.")
-    with sb.expander("Overview TMvisDB"):     # note: when using expander make sure to drop "sidebar"
-        st.markdown("**TMvisDB** provides per-residue transmembrane topology annotations for all proteins in [AlphaFold DB](http://example.com) (~ 200 million proteins) "
-                    "predicted as transmembrane proteins (~ 40 million). "
-                    "The annotations are predicted with [TMbed](http://example.com), and are visualized by overlaying them with AlphaFold 2 structures.")
-    with sb.expander("How to browse TMvisDB."):
-        st.markdown("To browse the 40 million predicted transmembrane proteins in TMvisDB, you can show a random selection or use the following filters:  \n"
-                    "- Transmembrane topology (alpha-helix, beta-strand  \n"
-                    "- Include/Exclude sequences with predicted signal peptides  \n"
-                    "- Taxonomy (Domain, Kingdom)")
-    with sb.expander("How to visualize predicted transmembrane proteins."):
-        st.markdown("Single proteins of TMvisDB can be selected for 3D-visualization of per-residue transmembrane topology annotation. "
-                    "You can either select a protein from the table you generated while browsing TMvisDB, or you can directly enter a UniProt Identifier. "
-                    "The AlphaFold 2 structures of a protein is then shown with the corresponding color code of the predicted topology. "
-                    "You may also select the pLDDT score of AlphaFold 2 as a color code.")
+    sb.caption("A database to search and visualize predicted transmembrane proteins.")
 
 
 def filters():
@@ -64,7 +49,7 @@ def vis():
         # select ID
         selected_id = st.text_input('Insert Uniprot ID', value ="A3Z0C4")
         # select style
-        style = st.selectbox('Style', ['Cartoon', 'Line', 'Cross', 'Stick', 'Sphere', 'Clicksphere']).lower()
+        style = st.selectbox('Style', ['Cartoon', 'Line', 'Cross', 'Stick', 'Sphere']).lower()
         # select color
         color_prot = st.selectbox('Color Scheme', ['Transmembrane Prediction', 'Alphafold pLDDT score'])
         # select spin

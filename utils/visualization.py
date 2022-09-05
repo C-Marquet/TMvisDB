@@ -3,21 +3,30 @@
 import py3Dmol
 from stmol import showmol
 from urllib.request import urlopen
+import requests
+import streamlit as st
 
 
 def get_data_vis(db, selected_id):
     query = {"tmvis_id": selected_id}
     data_form = {"tmvis_pred": 1,
                  "_id": 0}
-    prediction = db.chunk0.find(query, data_form)[0]['tmvis_pred']
-    return prediction
+    prediction_vis = db.chunk0.find(query, data_form)[0]['tmvis_pred']
+    return prediction_vis
 
 
 def vis(selected_id, pred, style, color_prot, spin):
 
-    # Initialize AF DB file
-    afdb_path = 'https://www.alphafold.ebi.ac.uk/files/AF-' + selected_id + '-F1-model_v3.pdb'
-    afdb_file = urlopen(afdb_path).read().decode('utf-8')
+    # Initialize AF DB json file
+    afdb_api_path = 'https://www.alphafold.ebi.ac.uk/api/prediction/' + selected_id
+    afdb_json = requests.get(afdb_api_path).json()
+
+    # get sequence
+    seq = afdb_json[0]["uniprotSequence"]
+
+    # get structure
+    afdb_pdb_path = afdb_json[0]['pdbUrl']
+    afdb_file = urlopen(afdb_pdb_path).read().decode('utf-8')
     system = "".join([x for x in afdb_file])
 
     # visualize protein structure
@@ -48,5 +57,13 @@ def vis(selected_id, pred, style, color_prot, spin):
     else:
         view.spin(False)
 
+    #view.addResLabels()
     view.zoomTo()
     showmol(view, height=500, width=800)
+
+    # Colorcode sequence
+    st.write(selected_id)
+    st.write("sequence length ", len(seq), seq)
+    st.write("prediction length", len(pred), pred)
+
+

@@ -1,7 +1,9 @@
 import streamlit as st
 import pymongo
 import pandas as pd
-from utils import sidebar, table, visualization
+from utils import overview, sidebar, table, visualization
+from PIL import Image
+from st_aggrid import AgGrid
 
 st.set_page_config(page_title='TMvisDB', page_icon='🧬')
 
@@ -25,49 +27,67 @@ sidebar.end()
 ####################################################################
 
 ####################################################################
-## Table ##
-st.title("Database")
-df = pd.DataFrame()
+## Main ##
+col1, col2, col3, col4  = st.columns(4, gap='small')
+col1.title(" \n ")
+col1.title("TMvisDB")
+col2.image(Image.open('img.png'), width=150)
+col3.image(Image.open('img.png'), width=150)
+col4.image(Image.open('img.png'), width=150)
 
-if select_random:
-    df = table.get_random(db, selected_limit)
-else:
-    query_tbl = table.query(selected_domain, selected_kingdom, selected_type, selected_sp)
-    df = table.get_data_tbl(db, query_tbl, selected_limit)
+st.caption("Welcome to TMvisDB: A database to search and visualize predicted transmembrane proteins.")
 
-# Hide Index column
-# CSS to inject contained in a string
-hide_dataframe_row_index = """
-            <style>
-            .row_heading.level0 {display:none}
-            .blank {display:none}
-            </style>
-            """
+tab1, tab2, tab3, tab4 = st.tabs(["Overview", "Database", "Visualization", "About"])
 
-# Inject CSS with Markdown
-st.markdown(hide_dataframe_row_index, unsafe_allow_html=True)
+with tab1:
+    overview.intro()
+####################################################################
 
-# Print results.
-st.dataframe(df)
-selected_dfid = st.selectbox("Choose an ID to visualize predicted transmembrane topology", df["UniProt ID"], 0)
-st.write(f'Selected ID: {selected_dfid}')
+####################################################################
+## Database ##
+with tab2:#
+    df = pd.DataFrame()
 
-st.markdown("---")
+    if select_random:
+        st.markdown("The table below shows a random selection. To personalize your selection, use the filters in the sidebar.")
+        df = table.get_random(db, selected_limit)
+    else:
+        st.markdown("The table below shows your personalized selection. To change a random selection, use the checkbox in the sidebar.")
+        query_tbl = table.query(selected_domain, selected_kingdom, selected_type, selected_sp)
+        df = table.get_data_tbl(db, query_tbl, int(selected_limit))
+
+    # Print results.
+    st.dataframe(df)
+    #grid_response = AgGrid(df)
+    #id = grid_response['data']["selected_rows"]
+    #st.write(f'Selected ID: {id["UniProt ID"]}')
+
+    st.markdown("---")
+    selected_dfid = st.selectbox("Choose an ID to visualize predicted transmembrane topology below", df["UniProt ID"], 0)
+    st.write(f'Selected ID: {selected_dfid}')
+
+    load_vis_tbl = st.checkbox('Visualize selected prediction')
+    if load_vis_tbl:
+        pred_tbl = visualization.get_data_vis(db, selected_dfid)
+        visualization.vis(selected_id, pred_tbl, style, color_prot, spin)
+        st.caption("Go to the side bar to change style and color scheme.")
 ####################################################################
 
 ####################################################################
 ## 3D vis ##
-st.title("Visualization")
-load_vis = st.checkbox('Load selected 3D structure')
-if load_vis:
-    if selected_dfid:
-        pred = visualization.get_data_vis(db, selected_dfid)
-        st.info("ID selected from table")
-    else:
-        pred = visualization.get_data_vis(db, selected_id)
-        st.info("ID selected from sidebar")
-    visualization.vis(selected_id, pred, style, color_prot, spin)
 
-st.markdown("---")
+with tab3:
+    load_vis_sdbr = st.checkbox('Load selected 3D structure')
+    if load_vis_sdbr:
+        pred_vis = visualization.get_data_vis(db, selected_id)
+        st.info("ID selected from sidebar")
+        visualization.vis(selected_id, pred_vis, style, color_prot, spin)
+
+    st.markdown("---")
 
 ####################################################################
+
+####################################################################
+## About ##
+with tab4:
+    st.text("hi")
