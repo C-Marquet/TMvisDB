@@ -13,7 +13,6 @@ st.set_page_config(page_title='TMvisDB', page_icon="⚛️")
 def init_connection():
     # pymongo.MongoClient("mongodb://localhost:27017/")
     return pymongo.MongoClient(**st.secrets["mongo"])
-        #"mongodb+srv://marquet:testmongo@cluster0.b84qizg.mongodb.net/?retryWrites=true&w=majority")
 
 
 client = init_connection()
@@ -55,7 +54,7 @@ with tab2:#
         try:
             df = table.get_data_tbl(db, query_tbl, int(selected_limit))
         except:
-            st.error("You selected: topology (" + selected_type + ") and taxonomy ("+ selected_domain +", "+ selected_kingdom+ "). There are not entries in TMvisDB for this selection. Please contact the authors if you believe there is something missing.", icon="🚨")
+            st.error("You selected: topology (" + selected_type + ") and taxonomy ("+ selected_domain +", "+ selected_kingdom+ "). There are no entries in TMvisDB for this selection. Please contact the authors if you believe there is something missing.", icon="🚨")
             st.stop()
 
     # Print results.
