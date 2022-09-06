@@ -1,0 +1,9 @@
+
+# Requirements for TMvisDB
+
+pymongo
+pandas
+py3Dmol
+stmol
+urllib
+requests

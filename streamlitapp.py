@@ -2,7 +2,7 @@ import streamlit as st
 import pymongo
 import pandas as pd
 from utils import overview, sidebar, table, visualization, about, header
-from st_aggrid import AgGrid
+#from st_aggrid import AgGrid
 
 st.set_page_config(page_title='TMvisDB', page_icon="⚛️")
 
