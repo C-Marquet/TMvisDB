@@ -1,7 +1,7 @@
 
 # Requirements for TMvisDB
 
-pymongo
+pymongo[srv]
 pandas
 py3Dmol
 stmol
