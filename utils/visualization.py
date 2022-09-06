@@ -25,6 +25,8 @@ def get_data_vis(db, selected_id):
 
 def vis(selected_id, pred, style, color_prot, spin):
 
+    st.write("Displayed protein: ", selected_id)
+
     # Initialize AF DB json file
     afdb_api_path = 'https://www.alphafold.ebi.ac.uk/api/prediction/' + selected_id
     afdb_json = requests.get(afdb_api_path).json()
@@ -92,7 +94,6 @@ def vis(selected_id, pred, style, color_prot, spin):
 
     color_table = pd.DataFrame(zip(list(seq), list(pred)), columns=["Sequence", "Prediction"]).T.style.apply(color_prediction, axis = 0)
 
-    st.write("Displayed protein ID: ", selected_id)
     st.write(color_table)
     st.write(color_code)
 

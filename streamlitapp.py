@@ -54,7 +54,7 @@ with tab2:#
             df = table.get_data_tbl(db, query_tbl, int(selected_limit))
         except:
             st.error("You selected: topology (" + selected_type + ") and taxonomy ("+ selected_domain +", "+ selected_kingdom+ "). There are no entries in TMvisDB for this selection. Please contact the authors if you believe there is something missing.", icon="🚨")
-            st.stop()
+            #st.stop()
 
     # Print results.
     st.dataframe(df)
@@ -79,9 +79,13 @@ with tab2:#
 with tab3:
     #load_vis_sdbr = st.checkbox('Load selected 3D structure')
     #if load_vis_sdbr:
-    pred_vis = visualization.get_data_vis(db, selected_id)
-    visualization.vis(selected_id, pred_vis, style, color_prot, spin)
-
+    try:
+        pred_vis = visualization.get_data_vis(db, selected_id)
+        visualization.vis(selected_id, pred_vis, style, color_prot, spin)
+    except:
+        st.error("We are having trouble loading your structure. Please check whether you entered the correct UniProt Identifier.",
+            icon="🚨")
+        #st.stop()
     st.markdown("---")
 
 ####################################################################
