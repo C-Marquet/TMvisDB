@@ -11,7 +11,6 @@ st.set_page_config(page_title='TMvisDB', page_icon="⚛️")
 # Uses st.experimental_singleton to only run once.
 @st.experimental_singleton
 def init_connection():
-    # pymongo.MongoClient("mongodb://localhost:27017/")
     return pymongo.MongoClient(**st.secrets["mongo"])
 
 
