@@ -9,7 +9,7 @@ def intro():
     st.markdown(
         "###### :bulb: How to browse TMvisDB: \n"
         "To browse the 40 million predicted transmembrane proteins in TMvisDB, you can show a random selection or use the following filters:  \n"
-        "- Transmembrane topology (alpha-helix, beta-strand  \n"
+        "- Transmembrane topology (alpha-helix, beta-strand)  \n"
         "- Include/Exclude sequences with predicted signal peptides  \n"
         "- Taxonomy (Domain, Kingdom)  \n")
     st.markdown(
