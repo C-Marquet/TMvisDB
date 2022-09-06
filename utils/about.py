@@ -4,7 +4,8 @@ def references():
     st.markdown("##### References  \n"
                 "- Preprint for TMvisDB: [TMvisDB](https://www.biorxiv.org/)  \n"
                 "- Structure predictions: [Alphafold DB](https://alphafold.ebi.ac.uk)  \n"
-                "- Transmembrane topology predictions: [TMbed](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-022-04873-x)")
+                "- Transmembrane topology predictions: [TMbed](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-022-04873-x)  \n"
+                "- Visualization: [TMvis](https://github.com/Rostlab/TMvis)")
 
 def software():
     st.markdown("##### Software   \n"
