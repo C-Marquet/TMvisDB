@@ -31,11 +31,11 @@ def query(selected_domain, selected_kingdom, selected_type, selected_sp):
         selection["topology_flags"] = [0, 1, sp]
 
     # add filter for domain and kingdom
-    if 'All' not in selected_kingdom:
-        selection["organism.lineage.1"] = selected_kingdom
-
     if 'All' not in selected_domain:
         selection["organism.lineage.0"] = selected_domain
+
+    if 'All' not in selected_kingdom:
+        selection["organism.lineage.1"] = selected_kingdom
 
     return selection
 

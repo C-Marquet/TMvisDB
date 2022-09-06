@@ -6,7 +6,73 @@ sb = st.sidebar
 # Options: Filter
 type_list = ['All', 'Both', 'Alpha-helix', 'Beta-strand']
 domain_list = ['All', 'Bacteria', 'Eukaryota', 'Archaea', 'unclassified sequences']
-kingdom_list = ['All', 'Bacteroidetes', 'Viridiplantae', 'Gemmatimonadetes', 'Thaumarchaeota', 'Proteobacteria', 'Cyanobacteria', 'Actinobacteria', 'Metazoa', 'Rhodophyta', 'environmental samples', 'Firmicutes', 'Fungi', 'Sar', 'metagenomes', 'Planctomycetes', 'Fusobacteria', 'Aquificae', 'Candidatus Saccharibacteria', 'Verrucomicrobia', 'Candidatus Woesebacteria', 'Euryarchaeota', 'Discoba', 'Synergistetes', 'Glaucocystophyceae', 'Cryptophyceae', 'Acidobacteria', 'Tenericutes', 'Fibrobacteres', 'Chlamydiae', 'Deinococcus-Thermus', 'Crenarchaeota', 'unclassified Parcubacteria group', 'Spirochaetes', 'Candidatus Thermoplasmatota', 'Asgard group', 'Chloroflexi', 'Candidatus Gottesmanbacteria', 'Candidatus Moranbacteria', 'Metamonada', 'Candidatus Bipolaricaulota', 'Elusimicrobia', 'Candidatus Stahlbacteria', 'Amoebozoa', 'Haptista', 'Candidatus Poribacteria', 'unclassified candidate division Zixibacteria', 'candidate division GN15', 'Candidatus Aminicenantes', 'Candidatus Rokubacteria', 'Candidatus Giovannonibacteria', 'candidate division WS2', 'Calditrichaeota', 'Thermotogae', 'Nitrospirae', 'Candidatus Marinimicrobia', 'Candidatus Dojkabacteria', 'Candidatus Peregrinibacteria', 'Candidatus Roizmanbacteria', 'candidate division TA06', 'Chlorobi', 'Candidatus Gracilibacteria', 'Candidatus Bathyarchaeota', 'Candidatus Altiarchaeota', 'Candidatus Latescibacteria', 'Lentisphaerae', 'Candidatus Parcubacteria', 'Candidatus Aerophobetes', 'Candidatus Dadabacteria', 'Atribacterota', 'Armatimonadetes', 'candidate division WWE3', 'Candidatus Microgenomates', 'Candidatus Falkowbacteria', 'Candidatus Edwardsbacteria', 'Candidatus Cloacimonetes', 'Candidatus Omnitrophica', 'candidate division KSB1', 'Ignavibacteriae', 'Candidatus Collierbacteria', 'Candidatus Micrarchaeota', 'Candidatus Hydrogenedentes', 'Candidatus Dependentiae', 'Candidatus Kaiserbacteria', 'Candidatus Vecturithrix', 'Candidatus Berkelbacteria', 'Candidatus Fermentibacteria', 'Candidatus Woesearchaeota', 'candidate division WOR-3', 'Balneolaeota', 'Candidatus Magasanikbacteria', 'Candidatus Wolfebacteria', 'Nitrospinae/Tectomicrobia group', 'Chrysiogenetes', 'Candidatus Shapirobacteria', 'Coprothermobacterota', 'Candidatus Pacearchaeota', 'Candidatus Margulisbacteria', 'Candidatus Amesbacteria', 'candidate division CPR1', 'Candidatus Delongbacteria', 'candidate division CPR2', 'Candidatus Korarchaeota', 'candidate division NC10', 'Candidatus Uhrbacteria', 'candidate division Kazan-3B-28', 'Deferribacteres', 'Candidatus Yanofskybacteria', 'Candidatus Eisenbacteria', 'Candidatus Daviesbacteria', 'Candidatus Nomurabacteria', 'Nanoarchaeota', 'Candidatus Kuenenbacteria', 'Candidatus Coatesbacteria', 'Candidatus Adlerbacteria', 'Candidatus Schekmanbacteria', 'Candidatus Levybacteria', 'Candidatus Aenigmarchaeota', 'Dictyoglomi', 'Candidatus Nealsonbacteria', 'Candidatus Melainabacteria', 'Thermodesulfobacteria', 'Candidatus Curtissbacteria', 'Candidatus Saganbacteria', 'Candidatus Beckwithbacteria', 'Candidatus Sumerlaeota', 'Candidatus Handelsmanbacteria', 'Candidatus Huberarchaea', 'Candidatus Azambacteria', 'Candidatus Desantisbacteria', 'Candidatus Dormibacteraeota', 'Candidatus Undinarchaeota', 'Candidatus Diapherotrites', 'Microgenomates group incertae sedis', 'Candidatus Hydrothermarchaeota', 'Candidatus Parvarchaeota', 'Candidatus Pacebacteria', 'Candidatus Jorgensenbacteria']
+kingdom_dict = dict()
+kingdom_dict['Archaea'] = \
+    ["All Archaea",
+     "Asgard group",
+    "Candidatus Hydrothermarchaeota",
+    "Candidatus Thermoplasmatota",
+    "DPANN group",
+    "Euryarchaeota",
+    "TACK group",
+    "Archaea incertae sedis"
+    "unclassified Archaea",
+    "environmental samples"]
+kingdom_dict['Eukaryota'] = \
+    ["All Eukaryota",
+    "Amoebozoa",
+    "Ancyromonadida",
+    "Apusozoa",
+    "Breviatea",
+    "CRuMs",
+    "Cryptophyceae (cryptomonads)",
+    "Discoba",
+    "Glaucocystophyceae",
+    "Haptista",
+    "Hemimastigophora",
+    "Malawimonadida",
+    "Metamonada",
+    "Opisthokonta",
+    "Rhodelphea",
+    "Rhodophyta (red algae)",
+    "Sar",
+    "Viridiplantae",
+    "Eukaryota incertae sedis",
+    "unclassified eukaryotes",
+    "environmental samples"]
+kingdom_dict["Bacteria"] = \
+    ["All Bacteria",
+    "Acidobacteria",
+    "Aquificae",
+    "Atribacterota",
+    "Caldiserica/Cryosericota group",
+    "Calditrichaeota",
+    "Candidatus Krumholzibacteriota",
+    "Candidatus Tharpellota",
+    "Chrysiogenetes",
+    "Coleospermum",
+    "Coprothermobacterota",
+    "Deferribacteres",
+    "Desulfobacterota",
+    "Dictyoglomi",
+    "Elusimicrobia",
+    "FCB group",
+    "Fusobacteria",
+    "Myxococcota",
+    "Nitrospinae/Tectomicrobia group",
+    "Nitrospirae",
+    "Proteobacteria",
+    "PVC group",
+    "Spirochaetes",
+    "Synergistetes",
+    "Terrabacteria group",
+    "Thermodesulfobacteria",
+    "Thermotogae",
+    "Bacteria incertae sedis",
+    "unclassified Bacteria",
+    "environmental samples"]
+
+kingdom_dict['All'] = ["All"] + kingdom_dict['Archaea'] + kingdom_dict['Bacteria'] + kingdom_dict['Eukaryota']
 
 ####################################################################
 
@@ -18,7 +84,7 @@ def filters():
     #                            help="By default, a random subset of TMvisDB is shown. To apply the filters below, uncheck this box.")
     select_random = sb.radio(
         "How to select data",
-        ('Random', 'Personalized'))
+        ('Random', 'Personalized'), help="Click 'Personalized' to select filters.")
 
     if select_random == 'Random':
         select_random = 1
@@ -32,10 +98,19 @@ def filters():
             select_random = 0
             # select TMP type
             selected_type = st.selectbox('Filter by Transmembrane Topology ', type_list, help="TMbed predicts per-residue transmembrane topology as either alpha-helical or beta-stand.")
-            selected_sp = st.checkbox('Include sequences with signal peptides', value=0, help="TMbed also predicts whether a sequence contains signal peptides.")
-            # select Taxonomy
-            selected_domain = st.multiselect('Filter by Taxonomy: Domain', domain_list, default='All', help="Select a domain.")
-            selected_kingdom = st.multiselect('Filter by Taxonomy: Kingdom', kingdom_list, default='All', help="Select a kingdom.")
+            selected_sp = st.checkbox('Show sequences with signal peptides', value=0, help="TMbed also predicts whether a sequence contains signal peptides.")
+            # select Taxonomy: Domain
+            selected_domain = st.selectbox('Filter by Taxonomy: Domain', domain_list, help="Select a domain.")
+            # select Taxonomy: Kingdom
+            if selected_domain == "Bacteria":
+                kingdom_list = kingdom_dict["Bacteria"]
+            elif selected_domain == "Eukaryota":
+                kingdom_list = kingdom_dict["Eukaryota"]
+            elif selected_domain == "Archaea":
+                kingdom_list = kingdom_dict["Archaea"]
+            else:
+                kingdom_list = kingdom_dict['All']
+            selected_kingdom = st.selectbox('Filter by Taxonomy: Kingdom', kingdom_list, help="Select a kingdom.")
             # Number of shown sequences
             selected_limit = st.number_input('Select limit of shown sequences', 1, 1000, value=100, help="As TMvisDB is a large database, you may want to set a limit for your table.")
 

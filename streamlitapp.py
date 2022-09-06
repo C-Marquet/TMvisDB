@@ -51,7 +51,11 @@ with tab2:#
     else:
         st.markdown("The table below shows your personalized selection. To change a random selection, use the checkbox in the sidebar.")
         query_tbl = table.query(selected_domain, selected_kingdom, selected_type, selected_sp)
-        df = table.get_data_tbl(db, query_tbl, int(selected_limit))
+        try:
+            df = table.get_data_tbl(db, query_tbl, int(selected_limit))
+        except:
+            st.error("You selected: topology (" + selected_type + ") and taxonomy ("+ selected_domain +", "+ selected_kingdom+ "). There are not entries in TMvisDB for this selection. Please contact the authors if you believe there is something missing.", icon="🚨")
+            st.stop()
 
     # Print results.
     st.dataframe(df)
