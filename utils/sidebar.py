@@ -135,4 +135,4 @@ def vis():
 def end():
     sb.markdown("---")
     st.sidebar.write("Author: [Céline Marquet](https://github.com/C-Marquet)")
-    st.sidebar.write("Source: [Github](https://github.com/C-Marquet/TMvisDB)")
+    st.sidebar.write("Source: [Github](https://github.com/marquetce/TMvisDB)")
