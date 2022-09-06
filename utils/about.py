@@ -15,6 +15,6 @@ def software():
 def author():
     st.markdown("##### Development & Maintenance")
     st.markdown("- Author: [Céline Marquet](https://github.com/C-Marquet)  \n"
-                "- Code Source: [Github](https://github.com/C-Marquet/TMvisDB)  \n"
+                "- Code Source: [Github](https://github.com/marquetce/TMvisDB)  \n"
                 "- License: [License](https://license.com/)  \n"
                 "- Resources: [Rostlab](https://rostlab.org)")
