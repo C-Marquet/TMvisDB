@@ -5,5 +5,4 @@ pymongo
 pandas
 py3Dmol
 stmol
-urllib
 requests
