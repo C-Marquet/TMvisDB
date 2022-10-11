@@ -1,58 +1,79 @@
 import pandas as pd
-
+import streamlit as st
+import pymongo
 
 def get_random(db, selected_limit):
-    data_form = {"tmvis_id": 1,
-                 "topology_flags": 1,
-                 "organism.lineage": 1,
-                 "_id": 0}
+    data_form = {'_id': 1,
+                 'sequence': 1,
+                 'predictions.transmembrane': 1,
+                 'annotations.tm_categorical': 1,
+                 'seq_length': 1,
+                 'organism_name': 1,
+                 'organism_id': 1,
+                 'uptaxonomy.Lineage_all': 1,
+                 'uptaxonomy.Domain': 1,
+                 'uptaxonomy.Kingdom': 1}
 
-    items = db.chunk0.aggregate([{ "$sample" : { "size": selected_limit }}, { "$project" : data_form}])
-
+    items = db.aggregate([{ "$sample" : { "size": selected_limit }}, { "$project" : data_form}])
     df = pd.json_normalize(items)
-    df['Domain'] = df['organism.lineage'].str[0]
-    df['Kingdom'] = df['organism.lineage'].str[1]
-    df = df[['tmvis_id', 'topology_flags', 'Domain', 'Kingdom', 'organism.lineage']]
-    df.columns = ['UniProt ID', 'Predicted: Alpha / Beta / Signal', 'Domain', 'Kingdom', 'Organism']
+    df = df[['_id', 'sequence', 'predictions.transmembrane', 'annotations.tm_categorical', 'seq_length', 'organism_name', 'organism_id', 'uptaxonomy.Lineage_all', 'uptaxonomy.Domain', 'uptaxonomy.Kingdom' ]]
+    df.columns = ['UniProt ID', 'Sequence', 'Prediction', 'Alpha / Beta / Signal', 'Sequence length', 'Organism name', 'Organism ID', 'Lineage', 'Domain', 'Kingdom']
 
     return df
 
 
-def query(selected_domain, selected_kingdom, selected_type, selected_sp):
+@st.cache
+def convert_df(df):
+    return df.to_csv().encode('utf-8')
+
+
+def query(selected_organismid, selected_domain, selected_kingdom, selected_type, selected_sp):
     sp = int(selected_sp)
 
     selection = dict()
     # add topology filter if selected_type not "All"
     if 'Both' in selected_type:
-        selection["topology_flags"] = [1, 1, sp]
+        selection["annotations.tm_categorical"] = [1, 1, sp]
     elif 'Alpha-helix' in selected_type:
-        selection["topology_flags"] = [1, 0, sp]
+        selection["annotations.tm_categorical"] = [1, 0, sp]
     elif 'Beta-strand' in selected_type:
-        selection["topology_flags"] = [0, 1, sp]
+        selection["annotations.tm_categorical"] = [0, 1, sp]
+
+    if selected_organismid != '' and selected_organismid != '0':
+        selection["organism_id"] = int(selected_organismid)
 
     # add filter for domain and kingdom
     if 'All' not in selected_domain:
-        selection["organism.lineage.0"] = selected_domain
+        selection["uptaxonomy.Domain"] = selected_domain
 
     if 'All' not in selected_kingdom:
-        selection["organism.lineage.1"] = selected_kingdom
+        selection["uptaxonomy.Kingdom"] = selected_kingdom
 
     return selection
 
 
 def get_data_tbl(db, query, selected_limit):
-    data_form = {"tmvis_id": 1,
-                 "topology_flags": 1,
-                 "organism.lineage": 1,
-                 "_id": 0}
+    data_form = {'_id': 1,
+                 'sequence': 1,
+                 'predictions.transmembrane': 1,
+                 'annotations.tm_categorical': 1,
+                 'seq_length': 1,
+                 'organism_name': 1,
+                 'organism_id': 1,
+                 'uptaxonomy.Lineage_all': 1,
+                 'uptaxonomy.Domain': 1,
+                 'uptaxonomy.Kingdom': 1}
 
-    items = db.chunk0.find(query, data_form).limit(selected_limit)
+    items = db.find(query, data_form).limit(selected_limit)
 
     df = pd.json_normalize(items)
-    df['Domain'] = df['organism.lineage'].str[0]
-    df['Kingdom'] = df['organism.lineage'].str[1]
-    df = df[['tmvis_id', 'topology_flags', 'Domain', 'Kingdom', 'organism.lineage']]
-    df.columns = ['UniProt ID', 'Predicted: Alpha / Beta / Signal', 'Domain', 'Kingdom', 'Organism']
+    if len(df.T) == 10:
+        df = df[['_id', 'sequence', 'predictions.transmembrane', 'annotations.tm_categorical', 'seq_length', 'organism_name', 'organism_id', 'uptaxonomy.Lineage_all', 'uptaxonomy.Domain', 'uptaxonomy.Kingdom' ]]
+        df.columns = ['UniProt ID', 'Sequence', 'Prediction', 'Alpha / Beta / Signal', 'Sequence length', 'Organism name', 'Organism ID', 'Lineage', 'Domain', 'Kingdom']
+    else:
+        df = df[['_id', 'sequence', 'predictions.transmembrane', 'annotations.tm_categorical', 'seq_length', 'organism_name', 'organism_id']]
+        df.columns = ['UniProt ID', 'Sequence', 'Prediction', 'Alpha / Beta / Signal', 'Sequence length', 'Organism name', 'Organism ID']
+        df = df.reindex(columns=['UniProt ID', 'Sequence', 'Prediction', 'Alpha / Beta / Signal', 'Sequence length', 'Organism name', 'Organism ID', 'Lineage', 'Domain', 'Kingdom'])
 
     return df
 

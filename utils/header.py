@@ -21,11 +21,11 @@ system = "".join([x for x in pdb_file])
 def title():
     st.markdown('<style>div.block-container{padding-top:3rem;}</style>', unsafe_allow_html=True)
 
-    col1, col2, col3, col4 = st.columns(4, gap='small')
+    col1, col2, col3 = st.columns(3, gap='small')
     col1.markdown("  \n")
     col1.markdown("  \n")
     col1.markdown("  \n")
-    col1.markdown("# TMvisDB")
+    col1.markdown("# TMvis-DB")
 
     with col2:
         view = py3Dmol.view(js='https://3dmol.org/build/3Dmol.js', height=200, width=400)
@@ -54,7 +54,7 @@ def title():
         view.zoom(0.15)
         showmol(view, height=200, width=400)
 
-    st.caption("Welcome to TMvisDB: A database to search and visualize predicted transmembrane proteins.")
+    st.caption("Welcome to TMvis-DB: A database to search and visualize predicted transmembrane proteins.")
 
 
 

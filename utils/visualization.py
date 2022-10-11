@@ -6,6 +6,7 @@ from urllib.request import urlopen
 import requests
 import streamlit as st
 import pandas as pd
+from st_aggrid import AgGrid
 
 # define color code
 top = ["Helix", "Helix", "Beta-Strand", "Beta-Strand", "inside", "outside", "Signal Peptide"]
@@ -16,14 +17,32 @@ color_code = pd.DataFrame(zip(top, abb, ori, col), columns=["Topology", "Abbrevi
 
 
 def get_data_vis(db, selected_id):
-    query = {"tmvis_id": selected_id}
-    data_form = {"tmvis_pred": 1,
-                 "_id": 0}
-    prediction_vis = db.chunk0.find(query, data_form)[0]['tmvis_pred']
-    return prediction_vis
+    query = {"_id": selected_id}
+    data_form = {'_id': 1,
+                 'sequence': 1,
+                 'predictions.transmembrane': 1,
+                 'annotations.tm_categorical': 1,
+                 'seq_length': 1,
+                 'organism_name': 1,
+                 'organism_id': 1,
+                 'uptaxonomy.Lineage_all': 1,
+                 'uptaxonomy.Domain': 1,
+                 'uptaxonomy.Kingdom': 1}
+    item = db.find(query, data_form)
+    pred_vis = item[0]['predictions']['transmembrane']
+    df_vis = pd.json_normalize(item)
+
+    if len(df_vis.T) == 10:
+        df_vis = df_vis[['_id', 'sequence', 'predictions.transmembrane', 'annotations.tm_categorical', 'seq_length', 'organism_name', 'organism_id', 'uptaxonomy.Lineage_all', 'uptaxonomy.Domain', 'uptaxonomy.Kingdom' ]]
+        df_vis.columns = ['UniProt ID', 'Sequence', 'Prediction', 'Alpha / Beta / Signal', 'Sequence length', 'Organism name', 'Organism ID', 'Lineage', 'Domain', 'Kingdom']
+    else:
+        df_vis = df_vis[['_id', 'sequence', 'predictions.transmembrane', 'annotations.tm_categorical', 'seq_length', 'organism_name', 'organism_id']]
+        df_vis.columns = ['UniProt ID', 'Sequence', 'Prediction', 'Alpha / Beta / Signal', 'Sequence length', 'Organism name', 'Organism ID']
+
+    return pred_vis, df_vis
 
 
-def vis(selected_id, pred, style, color_prot, spin):
+def vis(selected_id, pred, df, style, color_prot, spin):
 
     st.write("Displayed protein: ", selected_id)
 
@@ -89,13 +108,35 @@ def vis(selected_id, pred, style, color_prot, spin):
             color = 'darkblue'
         else:
             color = 'grey'
-
         return [f'background-color: {color}'] * 2
+
+    def color_tab(s):
+        if s['Abbreviation'] == 'S':
+            color = 'pink'
+        elif s['Abbreviation'] == 'H':
+            color = 'yellowgreen'
+        elif s['Abbreviation'] == 'h':
+            color = 'darkgreen'
+        elif s['Abbreviation'] == 'B':
+            color = 'lightblue'
+        elif s['Abbreviation'] == 'b':
+            color = 'darkblue'
+        else:
+            color = 'grey'
+        return ['background-color: #0E1117','background-color: #0E1117','background-color: #0E1117', f'background-color: {color}']
+
+
 
     color_table = pd.DataFrame(zip(list(seq), list(pred)), columns=["Sequence", "Prediction"]).T.style.apply(color_prediction, axis = 0)
 
+    st.write('Prediction')
     st.write(color_table)
-    st.write(color_code)
+
+    st.write('Color code')
+    st.write(color_code.style.apply(color_tab, axis = 1))#, fit_columns_on_grid_load=True)
+
+    st.write('Sequence Annotation')
+    AgGrid(df.drop(columns=['Sequence','Prediction']), height=75)
 
     st.caption("The inside/outside annotation is not optimized and must be interpreted with caution.")
 
