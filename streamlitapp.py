@@ -11,7 +11,7 @@ st.set_page_config(page_title='TMvis-DB', page_icon="⚛️", layout="wide")
 # Uses st.experimental_singleton to only run once.
 @st.experimental_singleton
 def init_connection():
-    return pymongo.MongoClient(**st.secrets["microscope"])#("mongodb://localhost:27017/")#(**st.secrets["mongo"])
+    return pymongo.MongoClient(**st.secrets["microscope"])
 
 
 client = init_connection()
@@ -85,17 +85,14 @@ with tab2:#
         st.caption(st.session_state.txt)
         table.show_tbl(st.session_state.tbl)
         # Download Button
-        st.download_button("Download selection", table.convert_df(df), "file.csv", "text/csv", key='download-csv')
+        st.download_button("Download selection", table.convert_df(st.session_state.tbl), "file.csv", "text/csv", key='download-csv')
 
         # Visualize from table
         st.markdown("---")
         selected_dfid = st.selectbox("Choose an ID to visualize predicted transmembrane topology below", st.session_state.tbl["UniProt ID"], 0)
-        #st.write(f'Selected ID: {selected_dfid}')
-
-        #if st.button('Visualize selected prediction'):
-        pred_tbl = visualization.get_data_vis(db, selected_dfid)
-        visualization.vis(selected_dfid, pred_tbl[0], pred_tbl[1], style, color_prot, spin)#'cartoon', 'Transmembrane Prediction', 0)
         st.caption("Use the visualization tab and side bar to change style and color scheme.")
+        pred_tbl = visualization.get_data_vis(db, selected_dfid)
+        visualization.vis(selected_dfid, pred_tbl[0], pred_tbl[1], style, color_prot, spin)
 
 ####################################################################
 
