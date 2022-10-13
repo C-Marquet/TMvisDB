@@ -21,7 +21,7 @@ system = "".join([x for x in pdb_file])
 def title():
     st.markdown('<style>div.block-container{padding-top:3rem;}</style>', unsafe_allow_html=True)
 
-    col1, col2, col3 = st.columns(3, gap='small')
+    col1, col2, col3, col4 = st.columns(4, gap='small')
     col1.markdown("  \n")
     col1.markdown("  \n")
     col1.markdown("  \n")
