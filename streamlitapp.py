@@ -109,7 +109,7 @@ with tab3:
         [pred_vis, df_vis] = visualization.get_data_vis(db, selected_id)
         visualization.vis(selected_id, pred_vis, df_vis, style, color_prot, spin)
     except:
-        st.error("We are having trouble loading your structure. Please check whether you entered the correct UniProt Identifier.")#,icon="🚨")
+        st.error("We are having trouble loading your structure. Please check whether you entered the correct UniProt Identifier.",icon="🚨")
         #st.stop()
     st.markdown("---")
 
