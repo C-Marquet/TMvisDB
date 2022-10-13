@@ -73,7 +73,7 @@ with tab2:#
             st.session_state.txt = "The table below shows your personalized selection. For a random selection use the sidebar button."
             st.session_state.tbl = df
         except:
-            st.error("There are no entries in TMvis-DB for your selection: topology (" + selected_type + ") and taxonomy ("+ selected_organismid+ '/ ' + selected_domain +", "+ selected_kingdom+ "). Please check FAQs if you believe there is something missing.")#, icon="🚨")
+            st.error("There are no entries in TMvis-DB for your selection: topology (" + selected_type + ") and taxonomy ("+ selected_organismid+ '/ ' + selected_domain +", "+ selected_kingdom+ "). Please check FAQs if you believe there is something missing.", icon="🚨")
             #st.stop()
         st.session_state.filt = False
 
