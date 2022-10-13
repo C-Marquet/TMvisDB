@@ -80,13 +80,9 @@ def filters():
     sb.markdown('<style>div.block-container{padding-top:1rem;}</style>', unsafe_allow_html=True)
     sb.markdown("---")
     sb.subheader("Search TMvis-DB")
-    #select_random = sb.checkbox('Show random subset', value=1,
-    #                            help="By default, a random subset of TMvisDB is shown. To apply the filters below, uncheck this box.")
-    select_random = sb.radio(
-        "How to select data",
-        ('Random', 'Personalized'), help="Click 'Personalized' to select filters.")
 
-    if select_random == 'Random':
+    if sb.button('Show random selection', help='Click here to show 100 random proteins of TMvis-DB.'):
+        st.session_state.rndm = True
         select_random = 1
         selected_type = 'All'
         selected_sp = '0'
@@ -95,40 +91,42 @@ def filters():
         selected_kingdom = 'All'
         selected_limit = 100
 
-    else:
-        with sb.expander("Access filters for TMvis-DB."):
-            select_random = 0
+    with sb.expander("Access filters for TMvis-DB."):
+        select_random = 0
 
-            # select TMP type
-            selected_type = st.selectbox('Filter by Transmembrane Topology ', type_list, help="TMbed predicts per-residue transmembrane topology as either alpha-helical or beta-stand.")
-            selected_sp = st.checkbox('Show sequences with signal peptides', value=0, help="TMbed also predicts whether a sequence contains signal peptides.")
+        # select TMP type
+        selected_type = st.selectbox('Filter by Transmembrane Topology ', type_list, help="TMbed predicts per-residue transmembrane topology as either alpha-helical or beta-stand.")
+        selected_sp = st.checkbox('Show sequences with signal peptides', value=0, help="TMbed also predicts whether a sequence contains signal peptides.")
 
-            tax = st.radio("Select Taxonomy via", ('Organism ID', 'Domain/Kingdom'))
-            if tax == 'Organism ID':
-                dis_bx = True
-                dis_org = False
-                val = ''
-            else:
-                dis_bx = False
-                dis_org = True
-                val = '0'
+        tax = st.radio("Select Taxonomy via", ('Organism ID', 'Domain/Kingdom'))
+        if tax == 'Organism ID':
+            dis_bx = True
+            dis_org = False
+            val = ''
+        else:
+            dis_bx = False
+            dis_org = True
+            val = '0'
 
-            # select Taxonomy: Organism ID
-            selected_organismid = st.text_input('Enter Organism ID', help="Type in UniProt Organism ID.", placeholder='9606', disabled=dis_org, value = val)
-            # select Taxonomy: Domain
-            selected_domain = st.selectbox('Select Domain', domain_list, help="Tyoe domain or select from list.", disabled=dis_bx)
-            # select Taxonomy: Kingdom
-            if selected_domain == "Bacteria":
-                kingdom_list = kingdom_dict["Bacteria"]
-            elif selected_domain == "Eukaryota":
-                kingdom_list = kingdom_dict["Eukaryota"]
-            elif selected_domain == "Archaea":
-                kingdom_list = kingdom_dict["Archaea"]
-            else:
-                kingdom_list = kingdom_dict['All']
-            selected_kingdom = st.selectbox('Select Kingdom', kingdom_list, help="Type kingdom or select from list.", disabled=dis_bx)
-            # Number of shown sequences
-            selected_limit = st.number_input('Select limit of shown sequences', 1, 10000, value=100, help="As TMvis-DB is a large database, you may want to set a limit for your table.")
+        # select Taxonomy: Organism ID
+        selected_organismid = st.text_input('Enter Organism ID', help="Type in UniProt Organism ID.", placeholder='9606', disabled=dis_org, value = val)
+        # select Taxonomy: Domain
+        selected_domain = st.selectbox('Select Domain', domain_list, help="Tyoe domain or select from list.", disabled=dis_bx)
+        # select Taxonomy: Kingdom
+        if selected_domain == "Bacteria":
+            kingdom_list = kingdom_dict["Bacteria"]
+        elif selected_domain == "Eukaryota":
+            kingdom_list = kingdom_dict["Eukaryota"]
+        elif selected_domain == "Archaea":
+            kingdom_list = kingdom_dict["Archaea"]
+        else:
+            kingdom_list = kingdom_dict['All']
+        selected_kingdom = st.selectbox('Select Kingdom', kingdom_list, help="Type kingdom or select from list.", disabled=dis_bx)
+        # Number of shown sequences
+        selected_limit = st.number_input('Select limit of shown sequences', 1, 10000, value=100, help="As TMvis-DB is a large database, you may want to set a limit for your table.")
+
+        if st.button('Submit filters', help='Click here to show your selection.'):
+            st.session_state.filt = True
 
     return selected_organismid, selected_domain, selected_kingdom, selected_type, selected_sp, selected_limit, select_random
 
@@ -139,13 +137,15 @@ def vis():
 
     with sb.expander("Access 3D visualization of a protein."):
         # select ID
-        selected_id = st.text_input('Insert Uniprot ID', value ="Q9NVH1")
+        selected_id = st.text_input('Insert Uniprot ID', placeholder ="Q9NVH1")
         # select style
         style = st.selectbox('Style', ['Cartoon', 'Line', 'Cross', 'Stick', 'Sphere']).lower()
         # select color
         color_prot = st.selectbox('Color Scheme', ['Transmembrane Prediction', 'Alphafold pLDDT score'])
         # select spin
         spin = st.checkbox('Spin', value=False)
+        if selected_id == '':
+            selected_id="Q9NVH1"
     return selected_id, style, color_prot, spin
 
 def end():

@@ -6,3 +6,4 @@ pandas
 py3Dmol
 stmol
 requests
+streamlit-aggrid

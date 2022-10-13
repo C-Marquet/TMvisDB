@@ -12,7 +12,7 @@ from st_aggrid import AgGrid
 top = ["Helix", "Helix", "Beta-Strand", "Beta-Strand", "inside", "outside", "Signal Peptide"]
 abb = ["H", "h", "B", "b", "i", "o", "S"]
 ori = ["IN-->OUT", "OUT-->IN", "IN-->OUT", "OUT-->IN", "inside", "outside", "NA"]
-col = ["light green", "dark green", "light blue", "dark blue", "grey", "grey", "pink"]
+col = ["light green", "dark green", "light blue", "dark blue", "light grey", "dark grey", "pink"]
 color_code = pd.DataFrame(zip(top, abb, ori, col), columns=["Topology", "Abbreviation", "Orientation", "Color"])
 
 
@@ -77,6 +77,8 @@ def vis(selected_id, pred, df, style, color_prot, spin):
             atom_color[nr] = 'powderblue'
         elif res_type == 'b':
             atom_color[nr] = 'darkblue'
+        elif res_type == 'i':
+            atom_color[nr] = 'darkgrey'
         else:
             atom_color[nr] = 'grey'
 
@@ -106,6 +108,8 @@ def vis(selected_id, pred, df, style, color_prot, spin):
             color = 'lightblue'
         elif s.loc['Prediction'] == 'b':
             color = 'darkblue'
+        elif s.loc['Prediction'] == 'i':
+            color = 'darkgrey'
         else:
             color = 'grey'
         return [f'background-color: {color}'] * 2
@@ -121,22 +125,23 @@ def vis(selected_id, pred, df, style, color_prot, spin):
             color = 'lightblue'
         elif s['Abbreviation'] == 'b':
             color = 'darkblue'
+        elif s['Abbreviation'] == 'i':
+            color = 'darkgrey'
         else:
             color = 'grey'
         return ['background-color: #0E1117','background-color: #0E1117','background-color: #0E1117', f'background-color: {color}']
-
 
 
     color_table = pd.DataFrame(zip(list(seq), list(pred)), columns=["Sequence", "Prediction"]).T.style.apply(color_prediction, axis = 0)
 
     st.write('Prediction')
     st.write(color_table)
+    st.caption("Inside/outside annotations are not optimized and must be interpreted with caution.")
+
+    st.write('Sequence Annotation')
+    AgGrid(df.drop(columns=['Sequence','Prediction']), height=75, fit_columns_on_grid_load=True)
 
     st.write('Color code')
     st.write(color_code.style.apply(color_tab, axis = 1))#, fit_columns_on_grid_load=True)
 
-    st.write('Sequence Annotation')
-    AgGrid(df.drop(columns=['Sequence','Prediction']), height=75)
-
-    st.caption("The inside/outside annotation is not optimized and must be interpreted with caution.")
 

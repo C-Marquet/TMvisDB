@@ -1,6 +1,6 @@
 import pandas as pd
 import streamlit as st
-import pymongo
+from st_aggrid import AgGrid, GridOptionsBuilder
 
 def get_random(db, selected_limit):
     data_form = {'_id': 1,
@@ -17,7 +17,7 @@ def get_random(db, selected_limit):
     items = db.aggregate([{ "$sample" : { "size": selected_limit }}, { "$project" : data_form}])
     df = pd.json_normalize(items)
     df = df[['_id', 'sequence', 'predictions.transmembrane', 'annotations.tm_categorical', 'seq_length', 'organism_name', 'organism_id', 'uptaxonomy.Lineage_all', 'uptaxonomy.Domain', 'uptaxonomy.Kingdom' ]]
-    df.columns = ['UniProt ID', 'Sequence', 'Prediction', 'Alpha / Beta / Signal', 'Sequence length', 'Organism name', 'Organism ID', 'Lineage', 'Domain', 'Kingdom']
+    df.columns = ['UniProt ID', 'Sequence', 'Prediction', 'Alpha, Beta, Signal', 'Sequence length', 'Organism name', 'Organism ID', 'Lineage', 'Domain', 'Kingdom']
 
     return df
 
@@ -69,11 +69,21 @@ def get_data_tbl(db, query, selected_limit):
     df = pd.json_normalize(items)
     if len(df.T) == 10:
         df = df[['_id', 'sequence', 'predictions.transmembrane', 'annotations.tm_categorical', 'seq_length', 'organism_name', 'organism_id', 'uptaxonomy.Lineage_all', 'uptaxonomy.Domain', 'uptaxonomy.Kingdom' ]]
-        df.columns = ['UniProt ID', 'Sequence', 'Prediction', 'Alpha / Beta / Signal', 'Sequence length', 'Organism name', 'Organism ID', 'Lineage', 'Domain', 'Kingdom']
+        df.columns = ['UniProt ID', 'Sequence', 'Prediction', 'Alpha, Beta, Signal', 'Sequence length', 'Organism name', 'Organism ID', 'Lineage', 'Domain', 'Kingdom']
     else:
         df = df[['_id', 'sequence', 'predictions.transmembrane', 'annotations.tm_categorical', 'seq_length', 'organism_name', 'organism_id']]
-        df.columns = ['UniProt ID', 'Sequence', 'Prediction', 'Alpha / Beta / Signal', 'Sequence length', 'Organism name', 'Organism ID']
-        df = df.reindex(columns=['UniProt ID', 'Sequence', 'Prediction', 'Alpha / Beta / Signal', 'Sequence length', 'Organism name', 'Organism ID', 'Lineage', 'Domain', 'Kingdom'])
+        df.columns = ['UniProt ID', 'Sequence', 'Prediction', 'Alpha, Beta, Signal', 'Sequence length', 'Organism name', 'Organism ID']
+        df = df.reindex(columns=['UniProt ID', 'Sequence', 'Prediction', 'Alpha, Beta, Signal', 'Sequence length', 'Organism name', 'Organism ID', 'Lineage', 'Domain', 'Kingdom'])
 
     return df
 
+def left_align(s, props='text-align: left;'):
+    return props
+
+def show_tbl(df):
+    builder = GridOptionsBuilder.from_dataframe(df, columnwidth=3)
+    builder.configure_pagination(enabled=True, paginationAutoPageSize=False, paginationPageSize=25)
+    builder.configure_grid_options(enableCellTextSelection=True)
+#    builder.configure_default_column(cellStyle: { textAlign: 'left' } )
+    go = builder.build()
+    AgGrid(df, gridOptions=go,  fit_columns_on_grid_load=True)#, update_mode='manual')#theme='alpine',
