@@ -80,9 +80,15 @@ def filters():
     sb.markdown('<style>div.block-container{padding-top:1rem;}</style>', unsafe_allow_html=True)
     sb.markdown("---")
     sb.subheader("Search TMvis-DB")
+    sb.caption("Please open the 'Database' tab to see results.")
 
-    if sb.button('Show random selection', help='Click here to show 100 random proteins of TMvis-DB.'):
+    emp = sb.empty()
+    rand = emp.button('Show random selection', help='Click here to show 100 random proteins of TMvis-DB.', disabled=st.session_state.rndm, key='1')
+
+    if rand:
         st.session_state.rndm = True
+        rand = emp.button('Show random selection', help='Click here to show 100 random proteins of TMvis-DB.',
+                          disabled=st.session_state.rndm, key='2')
         select_random = 1
         selected_type = 'All'
         selected_sp = '0'
@@ -130,8 +136,13 @@ def filters():
         # Number of shown sequences
         selected_limit = st.number_input('Select limit of shown sequences', 1, 10000, value=100, help="As TMvis-DB is a large database, you may want to set a limit for your table.")
 
-        if st.button('Submit filters', help='Click here to show your selection.'):
+        # Submit results
+        emp2 = st.empty()
+        subm = emp2.button('Submit filters', help='Click here to show your selection.', disabled=st.session_state.filt, key='3')
+
+        if subm:
             st.session_state.filt = True
+            subm = emp2.button('Submit filters', help='Click here to show your selection.', disabled=st.session_state.filt, key='4')
 
     return selected_organismid, selected_domain, selected_kingdom, selected_type, selected_sp, selected_limit, select_random, selected_length
 
@@ -139,6 +150,7 @@ def filters():
 def vis():
     sb.markdown("---")
     st.sidebar.subheader("Visualize predicted transmembrane proteins")
+    sb.caption("Please open the 'Visualization' tab to see results.")
 
     with sb.expander("Access 3D visualization of a protein."):
         # select ID

@@ -63,6 +63,7 @@ with tab2:#
             df = table.get_random(db, 100)
             st.session_state.tbl = df
         st.session_state.rndm = False
+        st.experimental_rerun()
 
     if st.session_state.filt:
         st.session_state.rndm = False
@@ -71,15 +72,16 @@ with tab2:#
             with st.spinner('Loading your data'):
                 df = table.get_data_tbl(db, query_tbl, selected_limit)
                 st.session_state.txt = "The table below shows your personalized selection. For a random selection use the sidebar button."
-            st.session_state.tbl = df
+                st.session_state.tbl = df
         except:
             st.error("There are no entries in TMvis-DB for your selection: topology (" + selected_type + ") and taxonomy ("+ selected_organismid+ '/ ' + selected_domain +", "+ selected_kingdom+ "). Please check FAQs if you believe there is something missing.", icon="🚨")
             st.session_state.txt = ''
         st.session_state.filt = False
+        st.experimental_rerun()
 
 
     if len(st.session_state.txt) == 0:
-        st.info("Use sidebar to access TMvis-DB.")
+        st.info("Use the sidebar to access TMvis-DB.")
     else:
         # Print results.
         st.caption(st.session_state.txt)
