@@ -115,33 +115,37 @@ def vis(selected_id, pred, df, style, color_prot, spin):
         return [f'background-color: {color}'] * 2
 
     def color_tab(s):
-        if s['Abbreviation'] == 'S':
+        if s == 'pink':
             color = 'pink'
-        elif s['Abbreviation'] == 'H':
+        elif s == 'light green':
             color = 'yellowgreen'
-        elif s['Abbreviation'] == 'h':
+        elif s == 'dark green':
             color = 'darkgreen'
-        elif s['Abbreviation'] == 'B':
+        elif s == 'light blue':
             color = 'lightblue'
-        elif s['Abbreviation'] == 'b':
+        elif s == 'dark blue':
             color = 'darkblue'
-        elif s['Abbreviation'] == 'i':
+        elif s == 'dark grey':
             color = 'darkgrey'
         else:
             color = 'grey'
-        return ['background-color: #0E1117','background-color: #0E1117','background-color: #0E1117', f'background-color: {color}']
+        return f'background-color: {color}'
 
 
-    color_table = pd.DataFrame(zip(list(seq), list(pred)), columns=["Sequence", "Prediction"]).T.style.apply(color_prediction, axis = 0)
+    pred_table = pd.DataFrame(zip(list(seq), list(pred)), columns=["Sequence", "Prediction"]).T.style.apply(color_prediction, axis = 0)
 
     st.write('Prediction')
-    st.write(color_table)
+    st.write(pred_table)
     st.caption("Inside/outside annotations are not optimized and must be interpreted with caution.")
 
     st.write('Sequence Annotation')
     AgGrid(df.drop(columns=['Sequence','Prediction']), height=75, fit_columns_on_grid_load=True)
 
     st.write('Color code')
-    st.write(color_code.style.apply(color_tab, axis = 1))#, fit_columns_on_grid_load=True)
+    if color_prot == 'Alphafold pLDDT score':
+        st.write("AF2")
+        #view.setStyle({'model': -1}, {style: {'colorscheme': {'prop': 'b', 'gradient': 'roygb', 'min': 50, 'max': 90}}})
+    else:
+        st.write(color_code.style.applymap(color_tab, subset=["Color"]))#, fit_columns_on_grid_load=True)
 
 

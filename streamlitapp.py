@@ -31,7 +31,7 @@ if 'txt' not in st.session_state:
 
 ####################################################################
 ## Sidebar ##
-[selected_organismid, selected_domain, selected_kingdom, selected_type, selected_sp, selected_limit, select_random] = sidebar.filters()
+[selected_organismid, selected_domain, selected_kingdom, selected_type, selected_sp, selected_limit, select_random, selected_length] = sidebar.filters()
 [selected_id, style, color_prot, spin] = sidebar.vis()
 sidebar.end()
 ####################################################################
@@ -59,27 +59,27 @@ with tab2:#
     if st.session_state.rndm:
         st.session_state.filt = False
         st.session_state.txt = "The table below shows a random selection. To personalize your selection, use the sidebar filters. (Note: Your current random selection will not be saved after reloading.)"
-        #st.markdown("The table below shows a random selection.  \nTo personalize your selection, use the filters in the sidebar. (Note: Your current random selection will not be saved after reloading.)")
-        df = table.get_random(db, 100)
-        st.session_state.tbl = df
+        with st.spinner('Loading your data'):
+            df = table.get_random(db, 100)
+            st.session_state.tbl = df
         st.session_state.rndm = False
 
     if st.session_state.filt:
         st.session_state.rndm = False
-        #st.markdown("The table below shows your personalized selection. To change a random selection, use the checkbox in the sidebar.")
-        query_tbl = table.query(selected_organismid, selected_domain, selected_kingdom, selected_type, selected_sp)
+        query_tbl = table.query(selected_organismid, selected_domain, selected_kingdom, selected_type, selected_sp, selected_length)
         try:
-            df = table.get_data_tbl(db, query_tbl, int(selected_limit))
-            st.session_state.txt = "The table below shows your personalized selection. For a random selection use the sidebar button."
+            with st.spinner('Loading your data'):
+                df = table.get_data_tbl(db, query_tbl, selected_limit)
+                st.session_state.txt = "The table below shows your personalized selection. For a random selection use the sidebar button."
             st.session_state.tbl = df
         except:
             st.error("There are no entries in TMvis-DB for your selection: topology (" + selected_type + ") and taxonomy ("+ selected_organismid+ '/ ' + selected_domain +", "+ selected_kingdom+ "). Please check FAQs if you believe there is something missing.", icon="🚨")
-            #st.stop()
+            st.session_state.txt = ''
         st.session_state.filt = False
 
 
     if len(st.session_state.txt) == 0:
-        st.info("Use sidebar to access TMvis-DB")
+        st.info("Use sidebar to access TMvis-DB.")
     else:
         # Print results.
         st.caption(st.session_state.txt)
@@ -124,4 +124,5 @@ with tab5:
     about.references()
     about.software()
     about.author()
+    about.impr()
 

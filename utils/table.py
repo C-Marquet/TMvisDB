@@ -27,10 +27,13 @@ def convert_df(df):
     return df.to_csv().encode('utf-8')
 
 
-def query(selected_organismid, selected_domain, selected_kingdom, selected_type, selected_sp):
+def query(selected_organismid, selected_domain, selected_kingdom, selected_type, selected_sp, selected_length):
     sp = int(selected_sp)
 
     selection = dict()
+    # sequence length
+    if selected_length != (16,1200):
+        selection["seq_length"] = {"$gt": selected_length[0] , "$lt": selected_length[1]}
     # add topology filter if selected_type not "All"
     if 'Both' in selected_type:
         selection["annotations.tm_categorical"] = [1, 1, sp]
@@ -43,10 +46,10 @@ def query(selected_organismid, selected_domain, selected_kingdom, selected_type,
         selection["organism_id"] = int(selected_organismid)
 
     # add filter for domain and kingdom
-    if 'All' not in selected_domain:
+    if 'All' not in selected_domain and len(selected_organismid) > 1:
         selection["uptaxonomy.Domain"] = selected_domain
 
-    if 'All' not in selected_kingdom:
+    if 'All' not in selected_kingdom and selected_organismid != '' and selected_organismid != '0':
         selection["uptaxonomy.Kingdom"] = selected_kingdom
 
     return selection
@@ -64,6 +67,7 @@ def get_data_tbl(db, query, selected_limit):
                  'uptaxonomy.Domain': 1,
                  'uptaxonomy.Kingdom': 1}
 
+# note to myself: add limit to query!
     items = db.find(query, data_form).limit(selected_limit)
 
     df = pd.json_normalize(items)

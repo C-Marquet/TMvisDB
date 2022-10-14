@@ -93,10 +93,11 @@ def filters():
 
     with sb.expander("Access filters for TMvis-DB."):
         select_random = 0
+        st.caption("Once you picked your filters, click the submit button below and open the 'Database' tab.")
 
         # select TMP type
         selected_type = st.selectbox('Filter by Transmembrane Topology ', type_list, help="TMbed predicts per-residue transmembrane topology as either alpha-helical or beta-stand.")
-        selected_sp = st.checkbox('Show sequences with signal peptides', value=0, help="TMbed also predicts whether a sequence contains signal peptides.")
+        selected_sp = st.checkbox('Show sequences with signal peptides', value=0, help="TMbed predicts whether a sequence contains signal peptides.")
 
         tax = st.radio("Select Taxonomy via", ('Organism ID', 'Domain/Kingdom'))
         if tax == 'Organism ID':
@@ -122,13 +123,17 @@ def filters():
         else:
             kingdom_list = kingdom_dict['All']
         selected_kingdom = st.selectbox('Select Kingdom', kingdom_list, help="Type kingdom or select from list.", disabled=dis_bx)
+
+        # Sequence length range
+        selected_length = st.slider('Select sequence length', 16, 1200, [16, 1200], help= "Select a minimum and maximum value for sequence length.")
+
         # Number of shown sequences
         selected_limit = st.number_input('Select limit of shown sequences', 1, 10000, value=100, help="As TMvis-DB is a large database, you may want to set a limit for your table.")
 
         if st.button('Submit filters', help='Click here to show your selection.'):
             st.session_state.filt = True
 
-    return selected_organismid, selected_domain, selected_kingdom, selected_type, selected_sp, selected_limit, select_random
+    return selected_organismid, selected_domain, selected_kingdom, selected_type, selected_sp, selected_limit, select_random, selected_length
 
 
 def vis():
