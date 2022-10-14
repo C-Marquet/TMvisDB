@@ -2,7 +2,7 @@
 
 Welcome to TMvisDB. This is still in development.
 
-web app: https://marquetce-tmvisdb-streamlitapp-pnq7j0.streamlitapp.com
+web app: https://tmvisdb.streamlitapp.com
 
 run locally: streamlit run streamlitapp.py
 
