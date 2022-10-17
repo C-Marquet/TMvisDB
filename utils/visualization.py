@@ -8,6 +8,7 @@ import streamlit as st
 import pandas as pd
 from st_aggrid import AgGrid
 
+
 # define color code
 top = ["Helix", "Helix", "Beta-Strand", "Beta-Strand", "inside", "outside", "Signal Peptide"]
 abb = ["H", "h", "B", "b", "i", "o", "S"]
@@ -132,20 +133,24 @@ def vis(selected_id, pred, df, style, color_prot, spin):
         return f'background-color: {color}'
 
 
-    pred_table = pd.DataFrame(zip(list(seq), list(pred)), columns=["Sequence", "Prediction"]).T.style.apply(color_prediction, axis = 0)
-
+    # Show Prediction
     st.write('Prediction')
+    pred_table = pd.DataFrame(zip(list(seq), list(pred)), columns=["Sequence", "Prediction"]).T.style.apply(color_prediction, axis = 0)
     st.write(pred_table)
     st.caption("Inside/outside annotations are not optimized and must be interpreted with caution.")
 
+    # Show further sequence annotation
     st.write('Sequence Annotation')
     AgGrid(df.drop(columns=['Sequence','Prediction']), height=75, fit_columns_on_grid_load=True)
 
+    # Explain Colors
+    afc = pd.DataFrame(['Very low (pLDDT < 50) ', 'Low (70 > pLDDT > 50)', 'Confident (90 > pLDDT > 70)', ' Very high (pLDDT > 90) '], columns= ['pLDDT score'])
+    afc = afc.T.style.apply(['background-color: red','background-color: red','background-color: red','background-color: red'], axis=1)
+
     st.write('Color code')
     if color_prot == 'Alphafold pLDDT score':
-        st.write("AF2")
-        #view.setStyle({'model': -1}, {style: {'colorscheme': {'prop': 'b', 'gradient': 'roygb', 'min': 50, 'max': 90}}})
+        st.write(afc)
     else:
-        st.write(color_code.style.applymap(color_tab, subset=["Color"]))#, fit_columns_on_grid_load=True)
+        st.write(color_code.style.applymap(color_tab, subset=["Color"]))
 
 
