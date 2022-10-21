@@ -5,7 +5,10 @@ def references():
                 "- Preprint for TMvis-DB: [TMvis-DB](https://www.biorxiv.org/)  \n"
                 "- Structure predictions: [Alphafold DB](https://alphafold.ebi.ac.uk)  \n"
                 "- Transmembrane topology predictions: [TMbed](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-022-04873-x)  \n"
-                "- Visualization: [TMvis](https://github.com/Rostlab/TMvis)")
+                "- Visualization: [TMvis](https://github.com/Rostlab/TMvis)  \n"
+                "- Protein-specific phenotype predictions: [LambdaPP](https://embed.predictprotein.org)  \n"
+                "- Structural aligments: [Foldseek](https://search.foldseek.com/search)")
+
 
 def software():
     st.markdown("##### Software   \n"

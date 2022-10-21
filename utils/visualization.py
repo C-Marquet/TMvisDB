@@ -14,7 +14,57 @@ top = ["Helix", "Helix", "Beta-Strand", "Beta-Strand", "inside", "outside", "Sig
 abb = ["H", "h", "B", "b", "i", "o", "S"]
 ori = ["IN-->OUT", "OUT-->IN", "IN-->OUT", "OUT-->IN", "inside", "outside", "NA"]
 col = ["light green", "dark green", "light blue", "dark blue", "light grey", "dark grey", "pink"]
-color_code = pd.DataFrame(zip(top, abb, ori, col), columns=["Topology", "Abbreviation", "Orientation", "Color"])
+color_code_pred = pd.DataFrame(zip(top, abb, ori, col), columns=["Topology", "Abbreviation", "Orientation", "Color"])
+color_code_af = pd.DataFrame(['Very low (pLDDT < 50)', 'Low (70 > pLDDT > 50)', 'Confident (90 > pLDDT > 70)', 'Very high (pLDDT > 90)'], columns=['pLDDT score'])
+
+
+# Color codes for tables
+def color_prediction(s):
+    if s.loc['Prediction'] == 'S':
+        color = 'pink'
+    elif s.loc['Prediction'] == 'H':
+        color = 'yellowgreen'
+    elif s.loc['Prediction'] == 'h':
+        color = 'darkgreen'
+    elif s.loc['Prediction'] == 'B':
+        color = 'lightblue'
+    elif s.loc['Prediction'] == 'b':
+        color = 'darkblue'
+    elif s.loc['Prediction'] == 'i':
+        color = 'darkgrey'
+    else:
+        color = 'grey'
+    return [f'background-color: {color}'] * 2
+
+
+def color_expl_tmbed(s):
+    if s == 'pink':
+        color = 'pink'
+    elif s == 'light green':
+        color = 'yellowgreen'
+    elif s == 'dark green':
+        color = 'darkgreen'
+    elif s == 'light blue':
+        color = 'lightblue'
+    elif s == 'dark blue':
+        color = 'darkblue'
+    elif s == 'dark grey':
+        color = 'darkgrey'
+    else:
+        color = 'grey'
+    return f'background-color: {color}'
+
+
+def color_expl_af(val):
+    if val == 'Very low (pLDDT < 50)':
+        color = '#FF0000'
+    elif val == 'Low (70 > pLDDT > 50)':
+        color = '#FFA500'
+    elif val == 'Confident (90 > pLDDT > 70)':
+        color = '#00C900'
+    elif val == 'Very high (pLDDT > 90)':
+        color = '#0000FF'
+    return f'background-color: {color}'
 
 
 def get_data_vis(db, selected_id):
@@ -97,42 +147,7 @@ def vis(selected_id, pred, df, style, color_prot, spin):
     view.zoomTo()
     showmol(view, height=500, width=800)
 
-    # Colorcode sequence
-    def color_prediction(s):
-        if s.loc['Prediction'] == 'S':
-            color = 'pink'
-        elif s.loc['Prediction'] == 'H':
-            color = 'yellowgreen'
-        elif s.loc['Prediction'] == 'h':
-            color = 'darkgreen'
-        elif s.loc['Prediction'] == 'B':
-            color = 'lightblue'
-        elif s.loc['Prediction'] == 'b':
-            color = 'darkblue'
-        elif s.loc['Prediction'] == 'i':
-            color = 'darkgrey'
-        else:
-            color = 'grey'
-        return [f'background-color: {color}'] * 2
-
-    def color_tab(s):
-        if s == 'pink':
-            color = 'pink'
-        elif s == 'light green':
-            color = 'yellowgreen'
-        elif s == 'dark green':
-            color = 'darkgreen'
-        elif s == 'light blue':
-            color = 'lightblue'
-        elif s == 'dark blue':
-            color = 'darkblue'
-        elif s == 'dark grey':
-            color = 'darkgrey'
-        else:
-            color = 'grey'
-        return f'background-color: {color}'
-
-
+    st.markdown("---")
     # Show Prediction
     st.write('Prediction')
     pred_table = pd.DataFrame(zip(list(seq), list(pred)), columns=["Sequence", "Prediction"]).T.style.apply(color_prediction, axis = 0)
@@ -144,13 +159,19 @@ def vis(selected_id, pred, df, style, color_prot, spin):
     AgGrid(df.drop(columns=['Sequence','Prediction']), height=75, fit_columns_on_grid_load=True)
 
     # Explain Colors
-    afc = pd.DataFrame(['Very low (pLDDT < 50) ', 'Low (70 > pLDDT > 50)', 'Confident (90 > pLDDT > 70)', ' Very high (pLDDT > 90) '], columns= ['pLDDT score'])
-    afc = afc.T.style.apply(['background-color: red','background-color: red','background-color: red','background-color: red'], axis=1)
-
     st.write('Color code')
     if color_prot == 'Alphafold pLDDT score':
-        st.write(afc)
+        st.write(color_code_af.style.applymap(color_expl_af, subset=["pLDDT score"]))
     else:
-        st.write(color_code.style.applymap(color_tab, subset=["Color"]))
+        st.write(color_code_pred.style.applymap(color_expl_tmbed, subset=["Color"]))
 
+    st.markdown("---")
+    # Link other resources
+    link_up = f'- UniProt entry: [{selected_id}](https://www.uniprot.org/uniprotkb/{selected_id}/entry)  \n'
+    link_lpp = f'- Evaluate protein-specific phenotype predictions: [LambdaPP](https://embed.predictprotein.org/#/interactive/{selected_id})  \n'
+    link_fs = f'- Generate structural alignments: [Foldseek](https://search.foldseek.com/search)'
+    st.markdown("Resources to evaluate your selection further:  \n")
+    st.markdown(link_up)
+    st.markdown(link_lpp)
+    st.markdown(link_fs)
 
