@@ -1,8 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap'); 
-
-html, body, [class*="css"] {
-    font-family: 'Roboto', sans-serif; 
-    font-size: 18px;
-    font-weight: 500;
-    color: #091747;
+/* snippet-regular - latin */
+@font-face {
+  font-family: 'Snippet';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../snippet-v21-latin/snippet-v21-latin-regular.eot'); /* IE9 Compat Modes */
+  src: local(''),
+       url('../snippet-v21-latin/snippet-v21-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../snippet-v21-latin/snippet-v21-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('../snippet-v21-latin/snippet-v21-latin-regular.woff') format('woff'), /* Modern Browsers */
+       url('../snippet-v21-latin/snippet-v21-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('../snippet-v21-latin/snippet-v21-latin-regular.svg#Snippet') format('svg'); /* Legacy iOS */
 }
