@@ -1,8 +1,6 @@
 /* stick-regular - latin */
 @font-face {
   font-family: 'Stick';
-  font-style: normal;
-  font-weight: 400;
   src: url('../stick-v15-latin/stick-v15-latin-regular.eot'); /* IE9 Compat Modes */
   src: local(''),
        url('../stick-v15-latin/stick-v15-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
@@ -12,7 +10,10 @@
        url('../stick-v15-latin/stick-v15-latin-regular.svg#Stick') format('svg'); /* Legacy iOS */
 }
 
-html, body, [class*="css"]  {
+html, body [class*="css"]  {
 font-family: 'Stick';
-font-size: 18px;
+}
+
+html, body [class*="st"]  {
+font-family: 'Stick';
 }

@@ -166,10 +166,12 @@ def vis(selected_id, pred, df, style, color_prot, spin):
         st.write(color_code_pred.style.applymap(color_expl_tmbed, subset=["Color"]))
 
     st.markdown("---")
+
     # Link other resources
     link_up = f'- UniProt entry: [{selected_id}](https://www.uniprot.org/uniprotkb/{selected_id}/entry)  \n'
     link_lpp = f'- Evaluate protein-specific phenotype predictions: [LambdaPP](https://embed.predictprotein.org/#/interactive/{selected_id})  \n'
     link_fs = f'- Generate structural alignments: [Foldseek](https://search.foldseek.com/search)'
+
     st.markdown("Resources to evaluate your selection further:  \n")
     st.markdown(link_up)
     st.markdown(link_lpp)
