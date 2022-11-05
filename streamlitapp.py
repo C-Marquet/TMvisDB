@@ -5,6 +5,8 @@ from utils import overview, sidebar, table, visualization, about, header, faq
 
 st.set_page_config(page_title='TMvis-DB', page_icon="⚛️", layout="wide")
 
+with open( ".streamlit\style.css" ) as css:
+    st.markdown( f'<style>{css.read()}</style>' , unsafe_allow_html= True)
 
 ####################################################################
 ## Initialize connection to DB ##
