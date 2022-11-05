@@ -3,11 +3,16 @@
   font-family: 'Snippet';
   font-style: normal;
   font-weight: 400;
-  src: url('../snippet-v21-latin/snippet-v21-latin-regular.eot'); /* IE9 Compat Modes */
+  src: url('https://github.com/marquetce/TMvisDB/tree/main/snippet-v21-latin/snippet-v21-latin-regular.eot'); /* IE9 Compat Modes */
   src: local(''),
-       url('../snippet-v21-latin/snippet-v21-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('../snippet-v21-latin/snippet-v21-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
-       url('../snippet-v21-latin/snippet-v21-latin-regular.woff') format('woff'), /* Modern Browsers */
-       url('../snippet-v21-latin/snippet-v21-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
-       url('../snippet-v21-latin/snippet-v21-latin-regular.svg#Snippet') format('svg'); /* Legacy iOS */
+       url('https://github.com/marquetce/TMvisDB/tree/main/snippet-v21-latin/snippet-v21-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('https://github.com/marquetce/TMvisDB/tree/main/snippet-v21-latin/snippet-v21-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('https://github.com/marquetce/TMvisDB/tree/main/snippet-v21-latin/snippet-v21-latin-regular.woff') format('woff'), /* Modern Browsers */
+       url('https://github.com/marquetce/TMvisDB/tree/main/snippet-v21-latin/snippet-v21-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('https://github.com/marquetce/TMvisDB/tree/main/snippet-v21-latin/snippet-v21-latin-regular.svg#Snippet') format('svg'); /* Legacy iOS */
+}
+
+html, body, [class*="css"]  {
+font-family: 'Snippet';
+font-size: 18px;
 }
