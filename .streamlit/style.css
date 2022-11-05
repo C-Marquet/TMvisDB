@@ -1,13 +1,13 @@
-/* stick-regular - latin */
+/* ingrid-darling-regular - latin */
 @font-face {
-  font-family: 'Stick';
-  src: url('../stick-v15-latin/stick-v15-latin-regular.eot'); /* IE9 Compat Modes */
+  font-family: 'Ingrid Darling';
+  src: url('https://github.com/marquetce/TMvisDB/tree/main/ingrid-darling-v2-latin/ingrid-darling-v2-latin-regular.eot'); /* IE9 Compat Modes */
   src: local(''),
-       url('../stick-v15-latin/stick-v15-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('../stick-v15-latin/stick-v15-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
-       url('../stick-v15-latin/stick-v15-latin-regular.woff') format('woff'), /* Modern Browsers */
-       url('../stick-v15-latin/stick-v15-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
-       url('../stick-v15-latin/stick-v15-latin-regular.svg#Stick') format('svg'); /* Legacy iOS */
+       url('https://github.com/marquetce/TMvisDB/tree/main/ingrid-darling-v2-latin/ingrid-darling-v2-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('https://github.com/marquetce/TMvisDB/tree/main/ingrid-darling-v2-latin/ingrid-darling-v2-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('https://github.com/marquetce/TMvisDB/tree/main/ingrid-darling-v2-latin/ingrid-darling-v2-latin-regular.woff') format('woff'), /* Modern Browsers */
+       url('https://github.com/marquetce/TMvisDB/tree/main/ingrid-darling-v2-latin/ingrid-darling-v2-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('https://github.com/marquetce/TMvisDB/tree/main/ingrid-darling-v2-latin/ingrid-darling-v2-latin-regular.svg#IngridDarling') format('svg'); /* Legacy iOS */
 }
 
 html, body [class*="css"]  {
@@ -15,5 +15,10 @@ font-family: 'Stick';
 }
 
 html, body [class*="st"]  {
+font-family: 'Stick';
+}
+
+
+html, body [class*="ag"]  {
 font-family: 'Stick';
 }
