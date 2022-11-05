@@ -5,11 +5,6 @@ from utils import overview, sidebar, table, visualization, about, header, faq
 
 st.set_page_config(page_title='TMvis-DB', page_icon="⚛️", layout="wide")
 
-with open( ".streamlit/style.css" ) as css:
-    st.markdown(f'<style>{css.read()}</style>', unsafe_allow_html= True)
-
-#st.markdown(".stMultiSelect > label {font-size:105%; font-weight:bold; color:blue;} ",unsafe_allow_html=True) #for all multi-select label sections
-
 ####################################################################
 ## Initialize connection to DB ##
 # Uses st.experimental_singleton to only run once.
