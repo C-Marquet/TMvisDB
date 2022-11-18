@@ -125,8 +125,19 @@ if st.session_state.usg_stats:
         try:
             [pred_vis, df_vis] = visualization.get_data_vis(db, selected_id)
             visualization.vis(selected_id, pred_vis, df_vis, style, color_prot, spin)
+            #visualization.annotation(pred_vis, df_vis)
         except:
-            st.error("We are having trouble loading your protein. This could mean that it is not in TMvis-DB as a predicted transmembrane protein, or the UniProt ID is misspelled.",icon="🚨")
+            st.warning("We are having trouble finding the predicted transmembrane topology of your protein. "
+                       "This could mean your protein is not predicted as a transmembrane protein and is not part of TMvis-DB, or the UniProt ID is misspelled. "
+                       "If an AlphaFold structure is displayed below, it is without transmembrane topology annotation.",
+                       icon="🚨")
+            pred_vis = 0
+            df_vis = 0
+            try:
+                visualization.vis(selected_id, pred_vis, df_vis, style, color_prot, spin)
+                #visualization.annotation(pred_vis, df_vis)
+            except:
+                st.error("We are also having trouble finding your protein structure. This could mean that it is not part of AlphaFold DB, or the UniProt ID is misspelled.",icon="🚨")
             #st.stop()
         st.markdown("---")
 

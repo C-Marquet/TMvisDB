@@ -9,14 +9,13 @@ import pandas as pd
 from st_aggrid import AgGrid
 
 
-# define color code
+## Define  color codes ##
 top = ["Helix", "Helix", "Beta-Strand", "Beta-Strand", "inside", "outside", "Signal Peptide"]
 abb = ["H", "h", "B", "b", "i", "o", "S"]
 ori = ["IN-->OUT", "OUT-->IN", "IN-->OUT", "OUT-->IN", "inside", "outside", "NA"]
 col = ["light green", "dark green", "light blue", "dark blue", "light grey", "dark grey", "pink"]
 color_code_pred = pd.DataFrame(zip(top, abb, ori, col), columns=["Topology", "Abbreviation", "Orientation", "Color"])
 color_code_af = pd.DataFrame(['Very low (pLDDT < 50)', 'Low (70 > pLDDT > 50)', 'Confident (90 > pLDDT > 70)', 'Very high (pLDDT > 90)'], columns=['pLDDT score'])
-
 
 # Color codes for tables
 def color_prediction(s):
@@ -36,7 +35,6 @@ def color_prediction(s):
         color = 'grey'
     return [f'background-color: {color}'] * 2
 
-
 def color_expl_tmbed(s):
     if s == 'pink':
         color = 'pink'
@@ -54,7 +52,6 @@ def color_expl_tmbed(s):
         color = 'grey'
     return f'background-color: {color}'
 
-
 def color_expl_af(val):
     if val == 'Very low (pLDDT < 50)':
         color = '#FF0000'
@@ -67,6 +64,7 @@ def color_expl_af(val):
     return f'background-color: {color}'
 
 
+## Load TMvis-DB data ##
 def get_data_vis(db, selected_id):
     query = {"_id": selected_id}
     data_form = {'_id': 1,
@@ -92,11 +90,8 @@ def get_data_vis(db, selected_id):
 
     return pred_vis, df_vis
 
-
-def vis(selected_id, pred, df, style, color_prot, spin):
-
-    st.write("Displayed protein: ", selected_id)
-
+## Load AF structure ##
+def get_af_structure(selected_id):
     # Initialize AF DB json file
     afdb_api_path = 'https://www.alphafold.ebi.ac.uk/api/prediction/' + selected_id
     afdb_json = requests.get(afdb_api_path).json()
@@ -108,12 +103,10 @@ def vis(selected_id, pred, df, style, color_prot, spin):
     afdb_pdb_path = afdb_json[0]['pdbUrl']
     afdb_file = urlopen(afdb_pdb_path).read().decode('utf-8')
     system = "".join([x for x in afdb_file])
+    return seq, system
 
-    # visualize protein structure
-    view = py3Dmol.view(js='https://3dmol.org/build/3Dmol.js')
-    view.addModelsAsFrames(system)
-    view.setBackgroundColor('#262730')
-
+## create color vector for transmembrane topology ##
+def tm_color_structure(pred):
     num_atom = 0
     atom_color = dict()
     # get TM colors
@@ -132,35 +125,25 @@ def vis(selected_id, pred, df, style, color_prot, spin):
             atom_color[nr] = 'darkgrey'
         else:
             atom_color[nr] = 'grey'
+    return atom_color
 
-    if color_prot == 'Alphafold pLDDT score':
-        view.setStyle({'model': -1}, {style: {'colorscheme': {'prop': 'b', 'gradient': 'roygb', 'min': 50, 'max': 90}}})
-    else:
-        view.setStyle({'model': -1}, {style: {'colorscheme': {'prop':'resi', 'map': atom_color}}})
-
-    if spin:
-        view.spin(True)
-    else:
-        view.spin(False)
-
-    #view.addResLabels()
-    view.zoomTo()
-    showmol(view, height=500, width=800)
-
+## Additional information concerning visualization ##
+def annotation(pred, df, seq, color_prot, selected_id):
     st.markdown("---")
-    # Show Prediction
-    st.write('Prediction')
-    pred_table = pd.DataFrame(zip(list(seq), list(pred)), columns=["Sequence", "Prediction"]).T.style.apply(color_prediction, axis = 0)
-    st.write(pred_table)
-    st.caption("Inside/outside annotations are not optimized and must be interpreted with caution.")
+    # Show Prediction if available
+    if pred != 0:
+        st.write('Prediction')
+        pred_table = pd.DataFrame(zip(list(seq), list(pred)), columns=["Sequence", "Prediction"]).T.style.apply(color_prediction, axis = 0)
+        st.write(pred_table)
+        st.caption("Inside/outside annotations are not optimized and must be interpreted with caution.")
 
-    # Show further sequence annotation
-    st.write('Sequence Annotation')
-    AgGrid(df.drop(columns=['Sequence','Prediction']), height=75, fit_columns_on_grid_load=True)
+        # Show further sequence annotation
+        st.write('Sequence Annotation')
+        AgGrid(df.drop(columns=['Sequence','Prediction']), height=75, fit_columns_on_grid_load=True)
 
     # Explain Colors
     st.write('Color code')
-    if color_prot == 'Alphafold pLDDT score':
+    if color_prot == 'Alphafold pLDDT score' or pred == 0:
         st.write(color_code_af.style.applymap(color_expl_af, subset=["pLDDT score"]))
     else:
         st.write(color_code_pred.style.applymap(color_expl_tmbed, subset=["Color"]))
@@ -176,4 +159,34 @@ def vis(selected_id, pred, df, style, color_prot, spin):
     st.markdown(link_up)
     st.markdown(link_lpp)
     st.markdown(link_fs)
+
+
+## Visualize ##
+def vis(selected_id, pred, df, style, color_prot, spin):
+
+    # visualize protein structure
+    [seq, structure] = get_af_structure(selected_id)
+
+    st.write("Displayed protein: ", selected_id)
+    view = py3Dmol.view(js='https://3dmol.org/build/3Dmol.js')
+    view.addModelsAsFrames(structure)
+    view.setBackgroundColor('#262730')
+
+    # add color
+    if color_prot == 'Alphafold pLDDT score' or pred == 0:
+        view.setStyle({'model': -1}, {style: {'colorscheme': {'prop': 'b', 'gradient': 'roygb', 'min': 50, 'max': 90}}})
+    else:
+        tm_color = tm_color_structure(pred)
+        view.setStyle({'model': -1}, {style: {'colorscheme': {'prop':'resi', 'map': tm_color}}})
+    # add spin
+    if spin:
+        view.spin(True)
+    else:
+        view.spin(False)
+
+    #view.addResLabels()
+    view.zoomTo()
+    showmol(view, height=500, width=800)
+
+    annotation(pred, df, seq, color_prot, selected_id)
 
