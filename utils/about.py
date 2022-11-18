@@ -20,7 +20,7 @@ def author():
     st.markdown("##### Development & Maintenance   \n"
                 "- Corresponding Author: [Céline Marquet](https://github.com/C-Marquet)  \n"
                 "- Code Source: [Github](https://github.com/marquetce/TMvisDB)  \n"
-                "- License: [License](https://license.com/)  \n"
+                "- License: [License](https://opensource.org/licenses/AFL-3.0)  \n"
                 "- Resources & Maintenance: [Rostlab](https://rostlab.org)")
 
 def impr():
