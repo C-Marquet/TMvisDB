@@ -1,5 +1,6 @@
 
 import streamlit as st
+import re
 sb = st.sidebar
 
 ####################################################################
@@ -155,6 +156,7 @@ def vis():
     with sb.expander("Access 3D visualization of a protein."):
         # select ID
         selected_id = st.text_input('Insert Uniprot ID', placeholder ="Q9NVH1")
+        selected_id = re.sub(r'[^a-zA-Z0-9]','', selected_id).upper()
         # select style
         style = st.selectbox('Style', ['Cartoon', 'Line', 'Cross', 'Stick', 'Sphere']).lower()
         # select color
