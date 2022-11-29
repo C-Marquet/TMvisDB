@@ -152,7 +152,7 @@ def annotation(pred, df, seq, color_prot, selected_id):
 
     # Link other resources
     link_up = f'- UniProt entry: [{selected_id}](https://www.uniprot.org/uniprotkb/{selected_id}/entry)  \n'
-    link_lpp = f'- Evaluate protein-specific phenotype predictions: [LambdaPP](https://embed.predictprotein.org/#/interactive/{selected_id})  \n'
+    link_lpp = f'- Evaluate protein-specific phenotype predictions: [LambdaPP](https://embed.predictprotein.org/i/{selected_id})  \n'
     link_fs = f'- Generate structural alignments: [Foldseek](https://search.foldseek.com/search)'
 
     st.markdown("Resources to evaluate your selection further:  \n")
