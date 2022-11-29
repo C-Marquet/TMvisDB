@@ -16,7 +16,7 @@ if not st.session_state.usg_stats:
         "Welcome to TMvis-DB. The authors of TMvis-DB opted out of gathering any usage summary statistics.  \n"
         "However, this web application is implemented with Streamlit. "
         "Please familiarize yourself with [Streamlit's privacy policy](https://streamlit.io/privacy-policy) before proceeding. "
-        "The authors of TMvis-DB have no insight to and cannot disclaim liability on any information collected or processed by Streamlit.", icon="🚨")
+        "The authors of TMvis-DB have no insight into or control over Streamlit's data collection process and, thus, cannot accept any liability for said process.", icon="🚨")
     placeholder_button = st.empty()
     user_stats = placeholder_button.button('Click here to continue to TMvis-DB.')
     if user_stats:
