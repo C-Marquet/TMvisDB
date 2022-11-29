@@ -2,9 +2,9 @@ import streamlit as st
 
 def intro():
     st.markdown(
-        "**TMvis-DB** provides per-residue transmembrane topology annotations for all proteins in [AlphaFold DB](http://example.com) (~ 200 million proteins, September '22) "
+        "**TMvis-DB** provides per-residue transmembrane topology annotations for all proteins in [AlphaFold DB](https://doi.org/10.1093/nar/gkab1061) (~ 200 million proteins, September '22) "
         "predicted as transmembrane proteins (~ 46 million). "
-        "The annotations are predicted with [TMbed](http://example.com), and are visualized by overlaying them with AlphaFold 2 structures.  \n")
+        "The annotations are predicted with [TMbed](https://doi.org/10.1186/s12859-022-04873-x), and are visualized by overlaying them with AlphaFold 2 structures.  \n")
 
     st.markdown(
         "###### :bulb: How to browse TMvis-DB: \n"
