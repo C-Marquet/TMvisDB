@@ -135,7 +135,7 @@ def filters():
         selected_length = st.slider('Select sequence length', 16, 1200, [16, 1200], help= "Select a minimum and maximum value for sequence length.")
 
         # Number of shown sequences
-        selected_limit = st.number_input('Select limit of shown sequences', 1, 10000, value=100, help="As TMvis-DB is a large database, you may want to set a limit for your table.")
+        selected_limit = st.number_input('Select limit of shown sequences', 1, 10000, value=100, help="As TMvisDB is a large database, you may want to set a limit for your table.")
 
         # Submit results
         emp2 = st.empty()
