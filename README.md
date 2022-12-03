@@ -31,7 +31,7 @@ Single proteins of TMvis-DB can be selected for 3D-visualization of per-residue 
 
 ----
 #### References:
-- Preprint for TMvis-DB: [TMvis-DB](https://www.biorxiv.org/)
+- Preprint for TMvis-DB: [TMvis-DB](https://biorxiv.org/cgi/content/short/2022.11.30.518551)
 - Structure predictions: [Alphafold DB](https://alphafold.ebi.ac.uk)
 - Transmembrane topology predictions: [TMbed](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-022-04873-x)
 - Visualization: [TMvis](https://github.com/Rostlab/TMvis)
