@@ -2,7 +2,7 @@ import streamlit as st
 
 def references():
     st.markdown("##### References  \n"
-                "- Preprint for TMvis-DB: [TMvis-DB](https://biorxiv.org/cgi/content/short/2022.11.30.518551)  \n"
+                "- Preprint for TMvisDB: [TMvisDB](https://biorxiv.org/cgi/content/short/2022.11.30.518551)  \n"
                 "- Structure predictions: [Alphafold DB](https://alphafold.ebi.ac.uk)  \n"
                 "- Transmembrane topology predictions: [TMbed](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-022-04873-x)  \n"
                 "- Visualization: [TMvis](https://github.com/Rostlab/TMvis)  \n"
