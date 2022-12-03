@@ -80,15 +80,15 @@ kingdom_dict['All'] = ["All"] + kingdom_dict['Archaea'] + kingdom_dict['Bacteria
 def filters():
     sb.markdown('<style>div.block-container{padding-top:1rem;}</style>', unsafe_allow_html=True)
     sb.markdown("---")
-    sb.subheader("Search TMvis-DB")
+    sb.subheader("Search TMvisDB")
     sb.caption("Please open the 'Database' tab to see results.")
 
     emp = sb.empty()
-    rand = emp.button('Show random selection', help='Click here to show 100 random proteins of TMvis-DB.', disabled=st.session_state.rndm, key='1')
+    rand = emp.button('Show random selection', help='Click here to show 100 random proteins of TMvisDB.', disabled=st.session_state.rndm, key='1')
 
     if rand:
         st.session_state.rndm = True
-        rand = emp.button('Show random selection', help='Click here to show 100 random proteins of TMvis-DB.',
+        rand = emp.button('Show random selection', help='Click here to show 100 random proteins of TMvisDB.',
                           disabled=st.session_state.rndm, key='2')
         select_random = 1
         selected_type = 'All'
@@ -98,7 +98,7 @@ def filters():
         selected_kingdom = 'All'
         selected_limit = 100
 
-    with sb.expander("Access filters for TMvis-DB."):
+    with sb.expander("Access filters for TMvisDB."):
         select_random = 0
         st.caption("Once you picked your filters, click the submit button below and open the 'Database' tab.")
 
