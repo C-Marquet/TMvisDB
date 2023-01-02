@@ -132,7 +132,7 @@ def filters():
         selected_kingdom = st.selectbox('Select Kingdom', kingdom_list, help="Type kingdom or select from list.", disabled=dis_bx)
 
         # Sequence length range
-        selected_length = st.slider('Select sequence length', 16, 1200, [16, 1200], help= "Select a minimum and maximum value for sequence length.")
+        selected_length = st.slider('Select sequence length', 16, 2700, [16, 2700], help= "Select a minimum and maximum value for sequence length.")
 
         # Number of shown sequences
         selected_limit = st.number_input('Select limit of shown sequences', 1, 10000, value=100, help="As TMvisDB is a large database, you may want to set a limit for your table.")
