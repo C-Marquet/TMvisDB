@@ -13,7 +13,7 @@ def intro():
         "- Include/Exclude sequences with predicted signal peptides  \n"
         "- Taxonomy (UniProt Organism Identifier, Domain, Kingdom)  \n"
         "- Protein length  \n"
-        "Note: We follow followed general length restrictions of AlphaFold DB: minimum 16 amino acids and maximum 1,280 amino acids for all organisms except SwissProt (2,700 amino acids) and human (none).  \n")
+        "Note: We follow general length restrictions of AlphaFold DB: minimum 16 amino acids and maximum 1,280 amino acids for all organisms except SwissProt (2,700 amino acids) and human (none).  \n")
     st.markdown(
         "###### :bulb: How to visualize predicted transmembrane proteins: \n"
         "Single proteins of TMvisDB can be selected for 3D-visualization of per-residue transmembrane topology annotation. "
