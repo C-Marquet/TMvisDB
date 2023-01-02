@@ -128,7 +128,7 @@ if st.session_state.usg_stats:
             #visualization.annotation(pred_vis, df_vis)
         except:
             st.warning("We are having trouble finding the predicted transmembrane topology of your protein. "
-                       "This could mean your protein is not predicted as a transmembrane protein and is not part of TMvis-DB, or the UniProt ID is misspelled. "
+                       "We are having trouble finding the predicted transmembrane topology of your protein. This could mean (1) your protein is outside the length restrictions of TMvisDB (see FAQ), (2) your protein is not predicted as a transmembrane protein, or (3) the UniProt ID is misspelled."
                        "If an AlphaFold structure is displayed below, it is without transmembrane topology annotation.",
                        icon="🚨")
             pred_vis = 0
