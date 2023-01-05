@@ -3,7 +3,7 @@ import pymongo
 import pandas as pd
 from utils import overview, sidebar, table, visualization, about, header, faq
 
-st.set_page_config(page_title='TMvis-DB', page_icon="⚛️", layout="wide")
+st.set_page_config(page_title='TMvisDB', page_icon="⚛️", layout="wide")
 
 
 ####################################################################
@@ -13,12 +13,12 @@ if 'usg_stats' not in st.session_state:
 
 if not st.session_state.usg_stats:
     warn = st.warning(
-        "Welcome to TMvis-DB. The authors of TMvis-DB opted out of gathering any usage summary statistics.  \n"
+        "Welcome to TMvisDB. The authors of TMvisDB opted out of gathering any usage summary statistics.  \n"
         "However, this web application is implemented with Streamlit. "
         "Please familiarize yourself with [Streamlit's privacy policy](https://streamlit.io/privacy-policy) before proceeding. "
-        "The authors of TMvis-DB have no insight into or control over Streamlit's data collection process and, thus, cannot accept any liability for said process.", icon="🚨")
+        "The authors of TMvisDB have no insight into or control over Streamlit's data collection process and, thus, cannot accept any liability for said process.", icon="🚨")
     placeholder_button = st.empty()
-    user_stats = placeholder_button.button('Click here to continue to TMvis-DB.')
+    user_stats = placeholder_button.button('Click here to continue to TMvisDB.')
     if user_stats:
         st.session_state.usg_stats = True
         placeholder_button.empty()
