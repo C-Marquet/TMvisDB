@@ -54,7 +54,7 @@ def title():
         view.zoom(0.15)
         showmol(view, height=200, width=400)
 
-    st.caption("Welcome to TMvis-DB: A database to search and visualize predicted transmembrane proteins.")
+    st.caption("Welcome to TMvisDB: A database to search and visualize predicted transmembrane proteins.")
 
 
 
