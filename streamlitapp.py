@@ -1,7 +1,7 @@
 import streamlit as st
 import pymongo
 import pandas as pd
-from utils import overview, sidebar, table, visualization, about, header, faq
+from app import faq, table, overview, visualization, about, sidebar, header
 
 st.set_page_config(page_title='TMvisDB', page_icon="⚛️", layout="wide")
 
@@ -31,7 +31,9 @@ if st.session_state.usg_stats:
 # Uses st.experimental_singleton to only run once.
     @st.experimental_singleton
     def init_connection():
+        #return pymongo.MongoClient(**st.secrets["local"])
         return pymongo.MongoClient(**st.secrets["microscope"])
+
 
 
     client = init_connection()
@@ -79,7 +81,7 @@ if st.session_state.usg_stats:
             st.session_state.filt = False
             st.session_state.txt = "The table below shows a random selection. To personalize your selection, use the sidebar filters. (Note: Your current random selection will not be saved after reloading.)"
             with st.spinner('Loading your data'):
-                df = table.get_random(db, 100)
+                df = table.get_random(db, 50)
                 st.session_state.tbl = df
             st.session_state.rndm = False
             st.experimental_rerun()
@@ -111,9 +113,10 @@ if st.session_state.usg_stats:
             # Visualize from table
             st.markdown("---")
             selected_dfid = st.selectbox("Choose an ID to visualize predicted transmembrane topology below", st.session_state.tbl["UniProt ID"], 0)
-            st.caption("Use the visualization tab and side bar to change style and color scheme.")
-            pred_tbl = visualization.get_data_vis(db, selected_dfid)
-            visualization.vis(selected_dfid, pred_tbl[0], pred_tbl[1], style, color_prot, spin)
+            #st.caption("Use the visualization tab and side bar to change style and color scheme.")
+            #pred_tbl = visualization.get_data_vis(db, selected_dfid)
+            #visualization.vis(selected_dfid, pred_tbl[0], pred_tbl[1], style, color_prot, spin)
+            visualization.vis(db, selected_dfid, style, color_prot, spin)
 
 ####################################################################
 
@@ -123,22 +126,9 @@ if st.session_state.usg_stats:
         #load_vis_sdbr = st.checkbox('Load selected 3D structure')
         #if load_vis_sdbr:
         try:
-            [pred_vis, df_vis] = visualization.get_data_vis(db, selected_id)
-            visualization.vis(selected_id, pred_vis, df_vis, style, color_prot, spin)
-            #visualization.annotation(pred_vis, df_vis)
+            visualization.vis(db, selected_id, style, color_prot, spin)
         except:
-            st.warning("We are having trouble finding the predicted transmembrane topology of your protein. "
-                       "This could mean, e.g., (1) your protein is outside the length restrictions of TMvisDB (see FAQ), (2) your protein is not predicted as a transmembrane protein, or (3) the UniProt ID is misspelled. "
-                       "If an AlphaFold structure is displayed below, it is without transmembrane topology annotation.",
-                       icon="🚨")
-            pred_vis = 0
-            df_vis = 0
-            try:
-                visualization.vis(selected_id, pred_vis, df_vis, style, color_prot, spin)
-                #visualization.annotation(pred_vis, df_vis)
-            except:
-                st.error("We are also having trouble finding your protein structure. This could mean that it is not part of AlphaFold DB, or the UniProt ID is misspelled.",icon="🚨")
-            #st.stop()
+            st.error("Sorry, we could not visualize your selected protein. Please contact us, so we can help you with your search.",icon="🚨")
         st.markdown("---")
 
 ####################################################################

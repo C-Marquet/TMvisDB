@@ -1,4 +1,5 @@
 import pandas as pd
+import random
 import streamlit as st
 from st_aggrid import AgGrid, GridOptionsBuilder
 
@@ -14,7 +15,9 @@ def get_random(db, selected_limit):
                  'uptaxonomy.Domain': 1,
                  'uptaxonomy.Kingdom': 1}
 
-    items = db.aggregate([{ "$sample" : { "size": selected_limit }}, { "$project" : data_form}])
+    vec = [int(random.triangular(16, 5000, 16)) for i in range(selected_limit)]
+    items = db.aggregate([{"$match": {"seq_length": {"$in": vec}}},{"$group": {"_id": "$seq_length", "data": {"$first": "$$ROOT"}}},{"$replaceRoot": {"newRoot": "$data"}}, { "$project" : data_form}])
+
     df = pd.json_normalize(items)
     df = df[['_id', 'sequence', 'predictions.transmembrane', 'annotations.tm_categorical', 'seq_length', 'organism_name', 'organism_id', 'uptaxonomy.Lineage_all', 'uptaxonomy.Domain', 'uptaxonomy.Kingdom' ]]
     df.columns = ['UniProt ID', 'Sequence', 'Prediction', 'Alpha, Beta, Signal', 'Sequence length', 'Organism name', 'Organism ID', 'Lineage', 'Domain', 'Kingdom']

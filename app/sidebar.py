@@ -98,7 +98,7 @@ def filters():
         selected_kingdom = 'All'
         selected_limit = 100
 
-    with sb.expander("Access filters for TMvisDB."):
+    with sb.expander("Click here to access filters for TMvisDB."):
         select_random = 0
         st.caption("Once you picked your filters, click the submit button below and open the 'Database' tab.")
 
@@ -153,10 +153,11 @@ def vis():
     st.sidebar.subheader("Visualize predicted transmembrane proteins")
     sb.caption("Please open the 'Visualization' tab to see results.")
 
-    with sb.expander("Access 3D visualization of a protein."):
+    with sb.expander("Click here to access 3D visualization for single proteins."):
         # select ID
         selected_id = st.text_input('Insert Uniprot ID', placeholder ="Q9NVH1")
-        selected_id = re.sub(r'[^a-zA-Z0-9]','', selected_id).upper()
+        selected_id = selected_id.strip().upper()
+        #selected_id = re.sub(r'[^a-zA-Z0-9]','', selected_id).upper()
         # select style
         style = st.selectbox('Style', ['Cartoon', 'Line', 'Cross', 'Stick', 'Sphere']).lower()
         # select color
