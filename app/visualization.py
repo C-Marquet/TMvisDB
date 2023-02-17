@@ -91,7 +91,6 @@ def annotation(pred, df, seq, color_prot, selected_id, up_tm_vec, tmaf_tm_vec, t
     # Show Prediction if available
     if pred != 0:
         st.write('Prediction')
-        st.write(len(str(topdb)))
 
         pred_table = pd.DataFrame(zip(list(seq), list(pred)), columns=["Sequence", "TMbed Prediction"])
         # table if no uniprot or tmalphafold
