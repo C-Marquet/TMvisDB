@@ -31,10 +31,7 @@ if st.session_state.usg_stats:
 # Uses st.experimental_singleton to only run once.
     @st.experimental_singleton
     def init_connection():
-        #return pymongo.MongoClient(**st.secrets["local"])
         return pymongo.MongoClient(**st.secrets["microscope"])
-
-
 
     client = init_connection()
     db = client.microscope.tmvis
@@ -100,11 +97,11 @@ if st.session_state.usg_stats:
             st.session_state.filt = False
             st.experimental_rerun()
 
-
         if len(st.session_state.txt) == 0:
             st.info("Use the sidebar to access TMvis-DB.")
         else:
-            # Print results.
+            # Print results
+            #st.write(table.query(selected_organismid, selected_domain, selected_kingdom, selected_type, selected_sp, selected_length))
             st.caption(st.session_state.txt)
             table.show_tbl(st.session_state.tbl)
             # Download Button
@@ -113,9 +110,6 @@ if st.session_state.usg_stats:
             # Visualize from table
             st.markdown("---")
             selected_dfid = st.selectbox("Choose an ID to visualize predicted transmembrane topology below", st.session_state.tbl["UniProt ID"], 0)
-            #st.caption("Use the visualization tab and side bar to change style and color scheme.")
-            #pred_tbl = visualization.get_data_vis(db, selected_dfid)
-            #visualization.vis(selected_dfid, pred_tbl[0], pred_tbl[1], style, color_prot, spin)
             visualization.vis(db, selected_dfid, style, color_prot, spin)
 
 ####################################################################
@@ -123,8 +117,6 @@ if st.session_state.usg_stats:
 ####################################################################
 ## 3D vis ##
     with tab3:
-        #load_vis_sdbr = st.checkbox('Load selected 3D structure')
-        #if load_vis_sdbr:
         try:
             visualization.vis(db, selected_id, style, color_prot, spin)
         except:

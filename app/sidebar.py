@@ -104,7 +104,11 @@ def filters():
 
         # select TMP type
         selected_type = st.selectbox('Filter by Transmembrane Topology ', type_list, help="TMbed predicts per-residue transmembrane topology as either alpha-helical or beta-stand.")
-        selected_sp = st.checkbox('Show sequences with signal peptides', value=0, help="TMbed predicts whether a sequence contains signal peptides.")
+        if selected_type == "All":
+            dis_type = True
+        else:
+            dis_type = False
+        selected_sp = st.checkbox('Show sequences with signal peptides', value=0, help="TMbed predicts whether a sequence contains signal peptides. Change 'Filter by Transmembrane Topology' to access.", disabled=dis_type)
 
         tax = st.radio("Select Taxonomy via", ('Organism ID', 'Domain/Kingdom'))
         if tax == 'Organism ID':
@@ -119,7 +123,7 @@ def filters():
         # select Taxonomy: Organism ID
         selected_organismid = st.text_input('Enter Organism ID', help="Type in UniProt Organism ID.", placeholder='9606', disabled=dis_org, value = val)
         # select Taxonomy: Domain
-        selected_domain = st.selectbox('Select Domain', domain_list, help="Tyoe domain or select from list.", disabled=dis_bx)
+        selected_domain = st.selectbox('Select Domain', domain_list, help="Type domain or select from list.", disabled=dis_bx)
         # select Taxonomy: Kingdom
         if selected_domain == "Bacteria":
             kingdom_list = kingdom_dict["Bacteria"]
@@ -132,7 +136,7 @@ def filters():
         selected_kingdom = st.selectbox('Select Kingdom', kingdom_list, help="Type kingdom or select from list.", disabled=dis_bx)
 
         # Sequence length range
-        selected_length = st.slider('Select sequence length', 16, 2700, [16, 2700], help= "Select a minimum and maximum value for sequence length.")
+        selected_length = st.slider('Select sequence length', 16, 5500, [16, 5500], help= "Select a minimum and maximum value for sequence length.")
 
         # Number of shown sequences
         selected_limit = st.number_input('Select limit of shown sequences', 1, 10000, value=100, help="As TMvisDB is a large database, you may want to set a limit for your table.")

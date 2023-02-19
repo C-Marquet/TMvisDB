@@ -55,11 +55,12 @@ def get_data_vis(db, selected_id):
     except:
         pred_vis = 0
         df_vis = 0
+        topdb = 0
+        membdb = 0
         st.warning("We are having trouble finding the predicted transmembrane topology of your protein in TMvisDB. "
                    "This could mean, e.g., (1) your protein is outside the length restrictions of TMvisDB (see FAQ), (2) your protein is not predicted as a transmembrane protein, or (3) the UniProt ID is misspelled. "
                    "If an AlphaFold structure is displayed below, it is without transmembrane topology annotation.",
                    icon="🚨")
-
     return pred_vis, df_vis, topdb, membdb
 
 ## Visualizing 3D structure ##
@@ -88,14 +89,13 @@ def vis_window(structure, pred, color_prot, spin, style):
 ## Descriptive information and additional annotation concerning visualization ##
 def annotation(pred, df, seq, color_prot, selected_id, up_tm_vec, tmaf_tm_vec, topdb, membdb):
     st.markdown("---")
-    # Show Prediction if available
+    # Table with prediction (if available)
     if pred != 0:
         st.write('Prediction')
-
+        # Table with sequence and Tmbed predictions
         pred_table = pd.DataFrame(zip(list(seq), list(pred)), columns=["Sequence", "TMbed Prediction"])
-        # table if no uniprot or tmalphafold
+        # Add other annotations to table
         colnames = ["UniProt Annotation", "TmAlphaFold Annotation", "TopDB Annotation", "Membranome Annotation"]
-        cap = "Inside/outside annotations of TMbed are not optimized and must be interpreted with caution. The color code is described below."
         found = False
         not_found = str()
         for idx, x in enumerate([up_tm_vec, tmaf_tm_vec, topdb, membdb]):
@@ -104,22 +104,23 @@ def annotation(pred, df, seq, color_prot, selected_id, up_tm_vec, tmaf_tm_vec, t
                 found = True
             else:
                 not_found = not_found + colnames[idx].split(' ')[0] + ', '
+        # Table caption
+        cap = "Inside/outside annotations of TMbed are not optimized and must be interpreted with caution. The color code is described below."
         if found:
             cap = cap + " If entries are '*', there are no annotations for these residues. 'M' means transmembrane-residue, 'AH' means alpha-helix, 'BS' means beta-strand."
         if len(not_found) > 0:
             cap = " We could not find transmembrane annotation in: " + not_found[:-2] +' (Note: there may be entries with deviating sequence length). ' + cap
 
+        # Change table style & print
         pred_table = pred_table.T.style.apply(color_prediction, axis = 0)
         st.write(pred_table)
         st.caption(cap)
 
-        # Show further sequence annotation
+        # Further sequence annotation
         st.write('Protein Annotation')
-
-        #st.write(df.drop(columns=['Sequence','Prediction']))
         AgGrid(df.drop(columns=['Sequence','Prediction']), height=75, fit_columns_on_grid_load=True)
 
-    # if no TMbed annotation, check other databases
+    # If no TMbed annotation, check UniProt and TmAlphaFold
     else:
         # no entry in UniProt or TmAlphaFold
         if up_tm_vec == 0 and tmaf_tm_vec == 0:
@@ -138,7 +139,6 @@ def annotation(pred, df, seq, color_prot, selected_id, up_tm_vec, tmaf_tm_vec, t
             st.caption(
                 "If entries in the row 'TmAlphaFold annotation' are '*', there are no annotations for these residues in TmAlphaFold. 'AH' means alpha-helix.")
             st.caption("We could not find UniProt transmembrane annotation for this protein.")
-
 
     # Explain Colors
     st.write('Color code')
@@ -173,42 +173,37 @@ def vis(db, selected_id, style, color_prot, spin):
         # get data from tmvisdb
         [pred, df, topdb, membdb] = get_data_vis(db, up_accnum)
 
-        # if helical, get TMDET from TmAlphaFold database
-        if "H" or "h" in pred or pred == 0:
-            tmaf_tm_vec = get_tmalphafold(up_name, seq_length)
-        else:
-            tmaf_tm_vec = 0
+        # get TMDET from TmAlphaFold database
+        tmaf_tm_vec = get_tmalphafold(up_name, seq_length)
 
         if pred == 0 and up_tm_vec == 0 and tmaf_tm_vec == 0:
             st.warning("We also found no transmembrane annotation in UniProt or TmAlphaFold.",icon="🚨")
 
         # get and protein structure
         [seq, structure] = get_af_structure(up_accnum)
-
-        if up_accnum != up_name:
-            st.write("Displaying protein with UniProt accession number: ", up_accnum, " and UniProt entry name:", up_name)
-        else:
-            st.write("Displaying protein with ID: ", up_accnum)
-        vis_window(structure, pred, color_prot, spin, style)
-        st.caption("Use the visualization tab and side bar to change style and color scheme.")
-        annotation(pred, df, seq, color_prot, up_accnum, up_tm_vec, tmaf_tm_vec, topdb, membdb)
-    else:
-        st.error("The input format of your selected ID ** "+ selected_id+ " ** is not correct.",icon="🚨")
-        # get uniprot annotation
-        up_accnum, up_name, up_tm_vec, seq_length = get_uniprot_tmvec(selected_id, input_type)
-        #st.write("Searching UniProt, we found the following protein with accession number: ", up_accnum, " and UniProt entry name:", up_name)
-        #st.write("Below are results for this protein. If this is not what you are looking for, please check UniProt for the accession number of your protein.")
-
-        [pred, df, topdb, membdb] = get_data_vis(db, up_accnum)
-
-        try:
-            # get and protein structure
-            [seq, structure] = get_af_structure(up_accnum)
+        if seq != 0:
+            if up_accnum != up_name:
+                st.write("Displaying protein with UniProt accession number: ", up_accnum, " and UniProt entry name:", up_name)
+            else:
+                st.write("Displaying protein with ID: ", up_accnum)
             vis_window(structure, pred, color_prot, spin, style)
             st.caption("Use the visualization tab and side bar to change style and color scheme.")
             annotation(pred, df, seq, color_prot, up_accnum, up_tm_vec, tmaf_tm_vec, topdb, membdb)
-
-        except:
-            st.warning("We are having trouble finding your protein structure in AlphaFold DB. This could mean that it is not part of AlphaFold DB, or the UniProt ID is misspelled.",
-                icon="🚨")
+    else:
+        st.error("The input format of your selected ID ** "+ selected_id+ " ** is not correct.",icon="🚨")
+        # try to find uniprot entry
+        up_accnum, up_name, up_tm_vec, seq_length = get_uniprot_tmvec(selected_id, input_type)
+        # try to find TMvisDB entry
+        [pred, df, topdb, membdb] = get_data_vis(db, up_accnum)
+        # try to visualize
+        tmaf_tm_vec = get_tmalphafold(up_name, seq_length)
+        [seq, structure] = get_af_structure(up_accnum)
+        if seq != 0:
+            if up_accnum != up_name:
+                st.write("Displaying protein with UniProt accession number: ", up_accnum, " and UniProt entry name:", up_name)
+            else:
+                st.write("Displaying protein with ID: ", up_accnum)
+            vis_window(structure, pred, color_prot, spin, style)
+            st.caption("Use the visualization tab and side bar to change style and color scheme.")
+            annotation(pred, df, seq, color_prot, up_accnum, up_tm_vec, tmaf_tm_vec, topdb, membdb)
 

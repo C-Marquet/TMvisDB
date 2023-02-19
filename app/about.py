@@ -7,7 +7,10 @@ def references():
                 "- Transmembrane topology predictions: [TMbed](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-022-04873-x)  \n"
                 "- Visualization: [TMvis](https://github.com/Rostlab/TMvis)  \n"
                 "- Protein-specific phenotype predictions: [LambdaPP](https://embed.predictprotein.org)  \n"
-                "- Structural aligments: [Foldseek](https://search.foldseek.com/search)")
+                "- Structural aligments: [Foldseek](https://search.foldseek.com/search)  \n"
+                "- Experimentally derived topology information: [Topology Data Bank of Transmembrane Proteins](http://topdb.enzim.hu/)  \n"
+                "- Membranome database for single-helix transmembrane proteins: [Membranome](https://membranome.org/)  \n"
+                "- Alpha-helical transmembrane proteins: [TmAlphaFold database](https://tmalphafold.ttk.hu/)")
 
 
 def software():

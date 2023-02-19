@@ -35,7 +35,7 @@ def query(selected_organismid, selected_domain, selected_kingdom, selected_type,
 
     selection = dict()
     # sequence length
-    if selected_length != (16,1200):
+    if selected_length != (16,5500):
         selection["seq_length"] = {"$gt": selected_length[0] , "$lt": selected_length[1]}
     # add topology filter if selected_type not "All"
     if 'Both' in selected_type:
@@ -49,10 +49,10 @@ def query(selected_organismid, selected_domain, selected_kingdom, selected_type,
         selection["organism_id"] = int(selected_organismid)
 
     # add filter for domain and kingdom
-    if 'All' not in selected_domain and len(selected_organismid) > 1:
+    if 'All' not in selected_domain and selected_organismid == '0':
         selection["uptaxonomy.Domain"] = selected_domain
 
-    if 'All' not in selected_kingdom and selected_organismid != '' and selected_organismid != '0':
+    if 'All' not in selected_kingdom and selected_organismid == '0':
         selection["uptaxonomy.Kingdom"] = selected_kingdom
 
     return selection

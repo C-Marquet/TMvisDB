@@ -23,13 +23,19 @@ def get_af_structure(selected_id):
     # Initialize AF DB json file
     afdb_api_path = 'https://www.alphafold.ebi.ac.uk/api/prediction/' + selected_id
     afdb_json = requests.get(afdb_api_path).json()
-
-    # get sequence
-    seq = afdb_json[0]["uniprotSequence"]
-    # get structure
-    afdb_pdb_path = afdb_json[0]['pdbUrl']
-    afdb_file = urlopen(afdb_pdb_path).read().decode('utf-8')
-    system = "".join([x for x in afdb_file])
+    try:
+        # get sequence
+        seq = afdb_json[0]["uniprotSequence"]
+        # get structure
+        afdb_pdb_path = afdb_json[0]['pdbUrl']
+        afdb_file = urlopen(afdb_pdb_path).read().decode('utf-8')
+        system = "".join([x for x in afdb_file])
+    except:
+        st.warning(
+            "We could not find a protein in AlphaFold DB matching your ID: " + selected_id ,
+            icon="🚨")
+        seq = 0
+        system = 0
     return seq, system
 
 ## Load uniprot transmembrane annotation ##
@@ -76,7 +82,7 @@ def get_uniprot_tmvec(selected_id, input_type):
             else:
                 UP_TM_vec = 0
     else:
-        st.write("Something went wrong contacting Uniprot. Please try again later.")
+        st.write("Something went wrong contacting Uniprot. Please check your selected ID and/or try again later.")
         up_name = selected_id
         up_acc = selected_id
         UP_TM_vec = 0
