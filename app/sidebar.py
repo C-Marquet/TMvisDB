@@ -118,7 +118,7 @@ def filters():
         else:
             dis_bx = False
             dis_org = True
-            val = '0'
+            val = ''
 
         # select Taxonomy: Organism ID
         selected_organismid = st.text_input('Enter Organism ID', help="Type in UniProt Organism ID.", placeholder='9606', disabled=dis_org, value = val)
@@ -134,6 +134,11 @@ def filters():
         else:
             kingdom_list = kingdom_dict['All']
         selected_kingdom = st.selectbox('Select Kingdom', kingdom_list, help="Type kingdom or select from list.", disabled=dis_bx)
+        if tax == 'Organism ID':
+            selected_domain = 'Any'
+            selected_kingdom = 'Any'
+        elif tax == 'Domain/Kingdom':
+            selected_organismid = ''
 
         # Sequence length range
         selected_length = st.slider('Select sequence length', 16, 5500, [16, 5500], help= "Select a minimum and maximum value for sequence length.")

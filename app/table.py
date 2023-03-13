@@ -29,7 +29,6 @@ def get_random(db, selected_limit):
 def convert_df(df):
     return df.to_csv().encode('utf-8')
 
-
 def query(selected_organismid, selected_domain, selected_kingdom, selected_type, selected_sp, selected_length):
     sp = int(selected_sp)
 
@@ -45,9 +44,8 @@ def query(selected_organismid, selected_domain, selected_kingdom, selected_type,
     elif 'Beta-strand' in selected_type:
         selection["annotations.tm_categorical"] = [0, 1, sp]
 
-    if selected_organismid != '' and selected_organismid != '0':
-        selection["organism_id"] = int(selected_organismid)
-
+    if selected_organismid != '' and selected_organismid != '0' and selected_organismid.isnumeric():
+            selection["organism_id"] = int(selected_organismid)
     # add filter for domain and kingdom
     if 'All' not in selected_domain and selected_organismid == '0':
         selection["uptaxonomy.Domain"] = selected_domain
@@ -69,12 +67,13 @@ def get_data_tbl(db, query, selected_limit):
                  'uptaxonomy.Lineage_all': 1,
                  'uptaxonomy.Domain': 1,
                  'uptaxonomy.Kingdom': 1}
-
 # note to myself: add limit to query!
     items = db.find(query, data_form).limit(selected_limit)
-
     df = pd.json_normalize(items)
-    if len(df.T) == 10:
+
+    if df.empty:
+        pass
+    elif len(df.T) == 10:
         df = df[['_id', 'sequence', 'predictions.transmembrane', 'annotations.tm_categorical', 'seq_length', 'organism_name', 'organism_id', 'uptaxonomy.Lineage_all', 'uptaxonomy.Domain', 'uptaxonomy.Kingdom' ]]
         df.columns = ['UniProt ID', 'Sequence', 'Prediction', 'Alpha, Beta, Signal', 'Sequence length', 'Organism name', 'Organism ID', 'Lineage', 'Domain', 'Kingdom']
     else:
