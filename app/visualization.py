@@ -118,7 +118,7 @@ def annotation(pred, df, seq, color_prot, selected_id, up_tm_vec, tmaf_tm_vec, t
 
         # Further sequence annotation
         st.write('Protein Annotation')
-        AgGrid(df.drop(columns=['Sequence','Prediction']), height=75, fit_columns_on_grid_load=True)
+        AgGrid(df.drop(columns=['Sequence','Prediction']), height=100, fit_columns_on_grid_load=True)
 
     # If no TMbed annotation, check UniProt and TmAlphaFold
     else:
