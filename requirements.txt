@@ -1,10 +1,11 @@
 
 # Requirements for TMvisDB
 
-streamlit == 1.16.0
-pymongo[srv]
+streamlit
+pymongo
 pandas
 py3Dmol
 stmol
 requests
 streamlit-aggrid
+ipython_genutils
