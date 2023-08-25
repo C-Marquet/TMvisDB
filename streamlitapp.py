@@ -1,7 +1,10 @@
+import os
+
 import streamlit as st
 import pymongo
 from pymongo.errors import ConnectionFailure
 import pandas as pd
+
 from app import faq, table, overview, visualization, about, sidebar, header
 
 st.set_page_config(page_title="TMvisDB", page_icon="⚛️", layout="wide")
@@ -34,7 +37,14 @@ if st.session_state.usg_stats:
     # Uses st.experimental_singleton to only run once.
     @st.cache_resource
     def init_connection():
-        return pymongo.MongoClient(**st.secrets["microscope"])
+        return pymongo.MongoClient(
+            host=os.environ.get("TMVIS_MONGO_HOST", "localhost"),
+            port=os.environ.get("TMVIS_MONGO_PORT", 27017),
+            username=os.environ.get("TMVIS_MONGO_USERNAME", ""),
+            password=os.environ.get("TMVIS_MONGO_PASSWORD", ""),
+            authSource=os.environ.get("TMVIS_MONGO_DB", "admin"),
+            appname="TMvis Frontend",
+        )
 
     client = init_connection()
     try:
