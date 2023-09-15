@@ -1,5 +1,8 @@
 # TMvisDB
 
+| :exclamation:  This repository is now maintained here: https://github.com/Rostlab/TMvisDB  |
+|--------------------------------------------------------------------------------------------|
+
 Welcome to **TMvisDB**: A database to search and visualize predicted transmembrane proteins. :seal:
 
 **TMvisDB** provides per-residue transmembrane topology annotations for all proteins in [AlphaFold DB](http://example.com) (~ 200 million proteins, September '22) predicted as transmembrane proteins (~ 46 million). The annotations are predicted with [TMbed](http://example.com), and are visualized by overlaying them with [AlphaFold 2](https://www.nature.com/articles/s41586-021-03819-2) structures.
